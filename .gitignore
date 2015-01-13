@@ -1,0 +1,14 @@
+.idea/
+.gradle/
+build/
+*.iml
+*.log
+
+## File-based project format:
+*.ipr
+*.iws
+
+# IntelliJ
+out/
+
+result.log
