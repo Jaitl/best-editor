@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="com.jaitlapps.besteditor.gui.MainMenu" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button mnemonicParsing="false" text="Список статей" />
+      <Button mnemonicParsing="false" text="Добавить статью">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></Button>
+      <Button mnemonicParsing="false" text="Список групп" >
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></Button>
+      <Button mnemonicParsing="false" text="Добавить группу" onAction="#AddGroup" >
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></Button>
+   </children>
+</VBox>
