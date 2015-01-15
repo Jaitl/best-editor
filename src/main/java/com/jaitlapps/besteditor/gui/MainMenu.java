@@ -1,18 +1,27 @@
 package com.jaitlapps.besteditor.gui;
 
+import com.jaitlapps.besteditor.CommonPreferences;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class MainMenu extends Application {
+
+    Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/main_menu.fxml"));
 
 
@@ -44,5 +53,32 @@ public class MainMenu extends Application {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    private void selectWorkFolder(ActionEvent event) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Выбор рабочей папки");
+
+        CommonPreferences commonPreferences = new CommonPreferences();
+
+        String workFolder = commonPreferences.getWorkFolder();
+
+        if(workFolder != null) {
+            directoryChooser.setInitialDirectory(new File(workFolder));
+        }
+
+        File selectedDirectory =
+                directoryChooser.showDialog(primaryStage);
+
+        if(selectedDirectory != null) {
+            commonPreferences.putWorkFolder(selectedDirectory.getPath());
+            System.out.println(selectedDirectory.getPath());
+        }
+    }
+
+    @FXML
+    private void closeDialog(ActionEvent event) {
+        Platform.exit();
     }
 }

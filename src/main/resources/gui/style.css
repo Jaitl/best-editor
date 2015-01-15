@@ -1,4 +1,4 @@
-.button, .text-field, .label {
+#mainMenuPane .button, #mainMenuPane .text-field, #mainMenuPane .label {
     -fx-font-family: "Times New Roman";
     -fx-font-size: 18px;
 }
