@@ -10,12 +10,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialogs;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class GroupEditor extends Application {
-
-    private final static int IMAGE_HEIGHT = 350;
 
     Stage primaryStage;
 
@@ -34,7 +37,7 @@ public class GroupEditor extends Application {
     }
 
     @FXML
-    private void selectImage(ActionEvent event){
+    private void selectImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Выбор иконки для группы");
@@ -45,46 +48,88 @@ public class GroupEditor extends Application {
 
         File selectedImage = fileChooser.showOpenDialog(primaryStage);
 
-        if(selectedImage != null) {
-            setImage(selectedImage.getPath());
-
-            iconFile = selectedImage;
+        if (selectedImage != null) {
+            if(validateIconSize(selectedImage)) {
+                setImage(selectedImage.getPath());
+                iconFile = selectedImage;
+            }
+            else {
+                Dialogs.create()
+                        .owner(primaryStage)
+                        .title("Иконка группы слишком маленькая")
+                        .message("Иконка группы слишком маленькая, выберите иконку побольше")
+                        .showInformation();
+                setImage(null);
+                iconFile = null;
+            }
         }
+    }
+
+    private boolean validateIconSize(File selectedImage) {
+
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(selectedImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (image != null && (image.getHeight() < GroupSaver.IMAGE_HEIGHT
+                || image.getWidth() < GroupSaver.IMAGE_HEIGHT)) {
+            return false;
+        }
+
+        return true;
     }
 
     @FXML
     private void cancelDialog(ActionEvent event) {
-        ((Node)(event.getSource())).getScene().getWindow().hide();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
     private void saveGroup(ActionEvent event) {
         String groupTitle = groupTitleField.getText();
 
-        if(groupTitle!= null && groupTitle.length() > 0) {
-            if(iconFile != null) {
+        if (groupTitle != null && groupTitle.length() > 0) {
+            if (iconFile != null) {
                 GroupSaver groupSaver = new GroupSaver();
-                groupSaver.saveGroup(groupTitle, iconFile);
+                try {
+                    groupSaver.saveGroup(groupTitle, iconFile);
+                    clearDialog();
+                } catch (IOException e) {
+                    Dialogs.create()
+                            .owner(primaryStage)
+                            .title("Ошибка")
+                            .message(e.getMessage())
+                            .showInformation();
+                }
+            } else {
+                Dialogs.create()
+                        .owner(primaryStage)
+                        .title("Иконка группы не выбрана")
+                        .message("Иконка группы не выбрана!")
+                        .showInformation();
             }
+        } else {
+            Dialogs.create()
+                    .owner(primaryStage)
+                    .title("Поле не заполнено")
+                    .message("Поле \"Название группы\" не заполнено!")
+                    .showInformation();
         }
     }
 
-    /*private BufferedImage resizeIcon(BufferedImage icon) {
-        return Scalr.resize(icon, IMAGE_HEIGHT);
-    }*/
+
 
     private void setImage(String pathToIcon) {
         Image icon = new Image("file:///" + pathToIcon);
         imageView.setImage(icon);
     }
 
-    /*public void setRecordIcon(ImageIcon customIcon) {
-        Image img = customIcon.getImage() ;
-        Image newImg = img.getScaledInstance( 100, 100,  java.awt.Image.SCALE_SMOOTH ) ;
-
-        ImageIcon smallIcon = new ImageIcon(newImg);
-
-        iconLabel.setText("");
-        iconLabel.setIcon(smallIcon);
-    }*/
+    private void clearDialog() {
+        groupTitleField.setText("");
+        imageView.setImage(null);
+    }
 }
