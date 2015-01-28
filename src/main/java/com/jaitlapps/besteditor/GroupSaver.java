@@ -1,9 +1,6 @@
 package com.jaitlapps.besteditor;
 
 import com.jaitlapps.besteditor.domain.Group;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonMethod;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
@@ -35,42 +32,21 @@ public class GroupSaver {
 
         String pathToImage = saveImage(image);
         group.setPathToImage(pathToImage);
-        group.setId(generateIdForGroup());
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        mapper.setVisibility(JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY);
+        group.setId(generateRandomId());
 
 
-        Path pathToDataDir = Paths.get(preferences.getWorkFolder() + "\\data");
+        GroupManager groupManager = GroupManager.getInstance();
 
-        if(Files.notExists(pathToDataDir)) {
-            try {
-                Files.createDirectory(pathToDataDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        groupManager.addGroup(group);
 
-        Path pathToGroupData = pathToDataDir.resolve("group.json");
-
-        GroupMapper groupMapper = null;
-        if(Files.exists(pathToGroupData)) {
-            groupMapper = mapper.readValue(pathToGroupData.toFile(), GroupMapper.class);
-        } else {
-            groupMapper = new GroupMapper();
-        }
-
-        groupMapper.addGroup(group);
-
-        mapper.writeValue(pathToGroupData.toFile(), groupMapper);
+        groupManager.saveGroupsToFile();
     }
 
     private String saveImage(File image) {
 
         BufferedImage originalImage = loadImage(image);
         BufferedImage resizeImage = resizeImage(originalImage);
-        String imageName = executeImageMD5(resizeImage);
+        String imageName = generateRandomId();
 
         Path pathToIconDir = Paths.get(preferences.getWorkFolder() + "\\icon");
 
@@ -103,35 +79,6 @@ public class GroupSaver {
         return "group\\icon\\" + imageName + ".png";
     }
 
-    private String executeImageMD5(BufferedImage image) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        byte[] imageInByte = null;
-
-        try {
-            ImageIO.write( image, "png", baos );
-            baos.flush();
-
-            imageInByte = baos.toByteArray();
-
-            baos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        MessageDigest messageDigest = null;
-
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        byte[] randomByte = messageDigest.digest(imageInByte);
-
-        return byteArrayToHex(randomByte);
-    }
-
     private BufferedImage resizeImage(BufferedImage buffImage) {
         return Scalr.resize(buffImage, IMAGE_HEIGHT);
     }
@@ -148,7 +95,7 @@ public class GroupSaver {
         return buffImage;
     }
 
-    private String generateIdForGroup() {
+    private String generateRandomId() {
 
         byte[] dateByte = null;
 

@@ -39,4 +39,9 @@ public class Group {
     public void setPathToImage(String pathToImage) {
         this.pathToImage = pathToImage;
     }
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 }

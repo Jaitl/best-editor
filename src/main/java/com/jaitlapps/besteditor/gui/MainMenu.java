@@ -26,8 +26,7 @@ public class MainMenu extends Application {
 
         Scene scene = new Scene(root, 300, 250);
 
-        scene.getStylesheets().add
-                (getClass().getClassLoader().getResource("gui/style.css").toExternalForm());
+        scene.getStylesheets().add("gui/style.css");
 
         primaryStage.setTitle("Главное Меню");
         primaryStage.setScene(scene);
@@ -76,6 +75,27 @@ public class MainMenu extends Application {
             commonPreferences.putWorkFolder(selectedDirectory.getPath());
             System.out.println(selectedDirectory.getPath());
         }
+    }
+
+    @FXML
+    private void ListGroups(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getClassLoader().getResourceAsStream("gui/group_list.fxml"));
+
+        GroupList groupList = fxmlLoader.getController();
+
+        stage.setTitle("Список групп");
+        Scene scene = new Scene(root, 400, 500);
+        stage.setMinWidth(400);
+        stage.setMinHeight(400);
+
+        scene.getStylesheets().add("gui/style.css");
+
+        stage.setScene(scene);
+        groupList.loadList();
+        stage.show();
     }
 
     @FXML

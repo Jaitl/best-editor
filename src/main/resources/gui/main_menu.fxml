@@ -23,7 +23,7 @@
    <center>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Список групп" />
+            <Button mnemonicParsing="false" text="Список групп" onAction="#ListGroups" />
             <Button mnemonicParsing="false" text="Добавить группу" onAction="#AddGroup">
                <VBox.margin>
                   <Insets top="10.0" />
