@@ -11,5 +11,5 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'org.imgscalr:imgscalr-lib:4.2'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'org.controlsfx:controlsfx:8.20.8'
+    compile 'org.controlsfx:openjfx-dialogs:1.+'
 }

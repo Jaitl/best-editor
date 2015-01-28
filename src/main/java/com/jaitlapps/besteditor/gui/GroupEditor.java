@@ -5,13 +5,12 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialogs;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -54,11 +53,12 @@ public class GroupEditor extends Application {
                 iconFile = selectedImage;
             }
             else {
-                Dialogs.create()
-                        .owner(primaryStage)
-                        .title("Иконка группы слишком маленькая")
-                        .message("Иконка группы слишком маленькая, выберите иконку побольше")
-                        .showInformation();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Иконка группы слишком маленькая");
+                alert.setHeaderText(null);
+                alert.setContentText("Иконка группы слишком маленькая, выберите иконку побольше");
+                alert.showAndWait();
+
                 setImage(null);
                 iconFile = null;
             }
@@ -99,25 +99,25 @@ public class GroupEditor extends Application {
                     groupSaver.saveGroup(groupTitle, iconFile);
                     clearDialog();
                 } catch (IOException e) {
-                    Dialogs.create()
-                            .owner(primaryStage)
-                            .title("Ошибка")
-                            .message(e.getMessage())
-                            .showInformation();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Ошибка");
+                    alert.setHeaderText(null);
+                    alert.setContentText(e.getMessage());
+                    alert.showAndWait();
                 }
             } else {
-                Dialogs.create()
-                        .owner(primaryStage)
-                        .title("Иконка группы не выбрана")
-                        .message("Иконка группы не выбрана!")
-                        .showInformation();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Иконка группы не выбрана");
+                alert.setHeaderText(null);
+                alert.setContentText("Иконка группы не выбрана!");
+                alert.showAndWait();
             }
         } else {
-            Dialogs.create()
-                    .owner(primaryStage)
-                    .title("Поле не заполнено")
-                    .message("Поле \"Название группы\" не заполнено!")
-                    .showInformation();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Поле не заполнено");
+            alert.setHeaderText(null);
+            alert.setContentText("Поле \"Название группы\" не заполнено!");
+            alert.showAndWait();
         }
     }
 
