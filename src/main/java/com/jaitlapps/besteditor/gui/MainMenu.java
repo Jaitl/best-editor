@@ -24,15 +24,14 @@ public class MainMenu extends Application {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/main_menu.fxml"));
 
-
-
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root, 300, 250);
 
         scene.getStylesheets().add
                 (getClass().getClassLoader().getResource("gui/style.css").toExternalForm());
 
         primaryStage.setTitle("Главное Меню");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
@@ -44,10 +43,12 @@ public class MainMenu extends Application {
     private void AddGroup(ActionEvent event) throws IOException {
         Stage stage = new Stage();
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/group.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/group_editor.fxml"));
 
         stage.setTitle("Добавление группы");
-        Scene scene = new Scene(root, 400, 400);
+        Scene scene = new Scene(root, 400, 450);
+        stage.setMinWidth(450);
+        stage.setMinHeight(470);
 
         scene.getStylesheets().add("gui/style.css");
 
