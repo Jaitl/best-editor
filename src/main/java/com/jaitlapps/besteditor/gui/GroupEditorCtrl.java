@@ -31,7 +31,7 @@ public class GroupEditorCtrl extends Application {
     }
     private EditorMode currentMode = EditorMode.ADD;
 
-    private GroupEntry groupEntry = new GroupEntry();
+    private GroupEntry groupEntry  = new GroupEntry();;
 
     private File currentImage;
 
@@ -97,6 +97,8 @@ public class GroupEditorCtrl extends Application {
 
     @FXML
     private void saveGroup(ActionEvent event) {
+
+
         groupEntry.setTitle(groupTitleField.getText());
 
         if (groupEntry.getTitle() != null && groupEntry.getTitle().length() > 0) {
@@ -107,6 +109,7 @@ public class GroupEditorCtrl extends Application {
                         log.info("save group: " + groupEntry.getTitle());
                         groupSaver.saveGroup(groupEntry, currentImage);
                         clearDialog();
+                        groupEntry = new GroupEntry();
                     } else if(currentMode == EditorMode.EDIT) {
 
                         groupSaver.updateGroup(groupEntry, currentImage);
