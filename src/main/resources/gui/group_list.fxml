@@ -9,16 +9,32 @@
    <bottom>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Редактировать группу" onAction="#editGroup">
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#addGroup" text="Добавить группу">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#editGroup" text="Редактировать группу" />
+               </children>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Удалить группу" onAction="#deleteGroup">
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#deleteGroup" text="Удалить группу">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#closeDialog" text="Закрыть окно" />
+               </children>
                <VBox.margin>
-                  <Insets bottom="3.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
-            </Button>
+            </HBox>
          </children>
          <BorderPane.margin>
             <Insets />
@@ -26,7 +42,7 @@
       </VBox>
    </bottom>
    <center>
-      <ListView fx:id="groupListView" BorderPane.alignment="CENTER" onMouseClicked="#editGroupDouble" >
+      <ListView fx:id="groupListView" onMouseClicked="#editGroupDouble" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin></ListView>

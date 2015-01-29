@@ -28,4 +28,10 @@ public class GroupsListEntry {
         group.setTitle(groupEntry.getTitle());
         group.setPathToImage(groupEntry.getPathToImage());
     }
+
+    public void deleteGroup(GroupEntry groupEntry) {
+        GroupEntry group = list.stream().filter(g -> g.getId() == groupEntry.getId()).findFirst().get();
+
+        list.remove(group);
+    }
 }

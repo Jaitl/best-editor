@@ -61,6 +61,20 @@ public class GroupSaver {
         groupManager.saveGroupsToFile();
     }
 
+    public void deleteGroup(GroupEntry groupEntry) {
+
+        Path pathToIcon = Paths.get(preferences.getWorkFolder(), groupEntry.getPathToImage());
+        try {
+            log.info("delete icon: " + groupEntry.getPathToImage());
+            Files.delete(pathToIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        groupManager.deleteGroup(groupEntry);
+        groupManager.saveGroupsToFile();
+    }
+
     private String saveImage(File image) {
 
         BufferedImage originalImage = loadImage(image);

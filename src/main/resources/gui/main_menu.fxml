@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane fx:id="mainMenuPane" fx:controller="com.jaitlapps.besteditor.gui.MainMenuCtrl" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="mainMenuPane" fx:controller="com.jaitlapps.besteditor.gui.MainMenuCtrl" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -23,25 +23,24 @@
    <center>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Список групп" onAction="#listGroups" />
-            <Button mnemonicParsing="false" text="Добавить группу" onAction="#addGroup">
+            <Button mnemonicParsing="false" text="Редактор групп" onAction="#groupEditor" >
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Список статей">
+            <Button mnemonicParsing="false" text="Редактор статей">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Добавить статью">
+            <Button mnemonicParsing="false" text="Выгрузить данные">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
          </children>
          <BorderPane.margin>
-            <Insets top="30.0" />
+            <Insets top="15.0" />
          </BorderPane.margin>
       </VBox>
    </center>

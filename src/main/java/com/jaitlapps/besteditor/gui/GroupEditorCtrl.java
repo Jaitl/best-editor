@@ -104,19 +104,21 @@ public class GroupEditorCtrl extends Application {
         if (groupEntry.getTitle() != null && groupEntry.getTitle().length() > 0) {
             if (currentImage != null) {
                 GroupSaver groupSaver = new GroupSaver();
+
                 try {
                     if(currentMode == EditorMode.ADD) {
                         log.info("save group: " + groupEntry.getTitle());
                         groupSaver.saveGroup(groupEntry, currentImage);
                         clearDialog();
+
                         groupEntry = new GroupEntry();
                     } else if(currentMode == EditorMode.EDIT) {
-
-                        groupSaver.updateGroup(groupEntry, currentImage);
                         log.info("update group: " + groupEntry.getTitle());
-
-                        ((Node) (event.getSource())).getScene().getWindow().hide();
+                        groupSaver.updateGroup(groupEntry, currentImage);
                     }
+
+                    ((Node) (event.getSource())).getScene().getWindow().hide();
+
                 } catch (IOException e) {
                     AlertInfo.showAlert("Ошибка", e.getMessage());
                 }

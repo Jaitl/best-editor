@@ -31,7 +31,7 @@ public class MainMenuCtrl extends Application {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/main_menu.fxml"));
 
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 300, 200);
 
         scene.getStylesheets().add("gui/style.css");
 
@@ -45,29 +45,6 @@ public class MainMenuCtrl extends Application {
         launch(args);
     }
 
-    @FXML
-    private void addGroup(ActionEvent event) throws IOException {
-        Stage stage = new Stage();
-
-        FXMLLoader loader = new FXMLLoader();
-
-        Parent root = loader.load(getClass().getClassLoader().getResourceAsStream("gui/group_editor.fxml"));
-
-        GroupEditorCtrl groupEditorCtrl = loader.getController();
-        groupEditorCtrl.enableAddMode();
-
-        stage.setTitle("Добавление группы");
-        Scene scene = new Scene(root, 400, 450);
-        stage.setMinWidth(450);
-        stage.setMinHeight(470);
-
-        scene.getStylesheets().add("gui/style.css");
-
-        stage.setScene(scene);
-        stage.show();
-
-
-    }
 
     @FXML
     private void selectWorkFolder() {
@@ -91,7 +68,7 @@ public class MainMenuCtrl extends Application {
     }
 
     @FXML
-    private void listGroups() throws IOException {
+    private void groupEditor() throws IOException {
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -100,9 +77,9 @@ public class MainMenuCtrl extends Application {
         GroupListCtrl groupListCtrl = fxmlLoader.getController();
 
         stage.setTitle("Список групп");
-        Scene scene = new Scene(root, 400, 500);
-        stage.setMinWidth(400);
-        stage.setMinHeight(400);
+        Scene scene = new Scene(root, 500, 500);
+        stage.setMinWidth(500);
+        stage.setMinHeight(500);
 
         scene.getStylesheets().add("gui/style.css");
 

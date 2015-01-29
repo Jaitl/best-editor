@@ -2,12 +2,15 @@ package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.GroupManager;
+import com.jaitlapps.besteditor.GroupSaver;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -48,6 +51,11 @@ public class GroupListCtrl extends Application {
     }
 
     @FXML
+    private void closeDialog(ActionEvent event) {
+        ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    @FXML
     private void editGroupDouble(MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount() == 2) {
             editGroup();
@@ -59,7 +67,7 @@ public class GroupListCtrl extends Application {
         GroupEntry item = groupListView.getFocusModel().getFocusedItem();
 
         if(item != null) {
-            openGroupEditor(item);
+            openGroupEditor(item, true);
         } else {
             AlertInfo.showAlert("Группа для редактирования не выбрана", "Группа для редактирования не выбрана. Выберите группу для редактирования.");
         }
@@ -67,10 +75,23 @@ public class GroupListCtrl extends Application {
 
     @FXML
     private void deleteGroup() {
+        GroupEntry item = groupListView.getFocusModel().getFocusedItem();
 
+        if(item != null) {
+            GroupSaver groupSaver = new GroupSaver();
+            groupSaver.deleteGroup(item);
+            updateGroupsList();
+        } else {
+            AlertInfo.showAlert("Группа для удаления не выбрана", "Группа для удаления не выбрана. Выберите группу для удаления.");
+        }
     }
 
-    private void openGroupEditor(GroupEntry groupEntry) {
+    @FXML
+    private void addGroup() {
+        openGroupEditor(null, false);
+    }
+
+    private void openGroupEditor(GroupEntry groupEntry, boolean openForEdit) {
         Stage stage = new Stage();
 
         FXMLLoader loader = new FXMLLoader();
@@ -83,10 +104,15 @@ public class GroupListCtrl extends Application {
         }
 
         GroupEditorCtrl groupEditorCtrl = loader.getController();
-        groupEditorCtrl.enableEditMode();
-        groupEditorCtrl.setGroupEntry(groupEntry);
 
-        stage.setTitle("Добавление группы");
+        if(openForEdit) {
+            groupEditorCtrl.enableEditMode();
+            groupEditorCtrl.setGroupEntry(groupEntry);
+        } else {
+            groupEditorCtrl.enableAddMode();
+        }
+
+        stage.setTitle("Редактирование группы");
         Scene scene = new Scene(root, 400, 450);
         stage.setMinWidth(450);
         stage.setMinHeight(470);

@@ -39,14 +39,20 @@ public class GroupManager {
         return INSTANCE;
     }
 
+    public void addGroup(GroupEntry groupEntry) {
+        groupsListEntry.addGroup(groupEntry);
+        log.info("add group: " + groupEntry.getId());
+    }
+
     public void updateGroup(GroupEntry groupEntry) {
         groupsListEntry.updateGroup(groupEntry);
         log.info("update group: " + groupEntry.getId());
     }
 
-    public void addGroup(GroupEntry groupEntry) {
-        groupsListEntry.addGroup(groupEntry);
-        log.info("add group: " + groupEntry.getId());
+    public void deleteGroup(GroupEntry groupEntry) {
+        log.info("delete group: " + groupEntry.getId());
+
+        groupsListEntry.deleteGroup(groupEntry);
     }
 
     public List<GroupEntry> getGroups() {
