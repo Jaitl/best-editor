@@ -77,9 +77,8 @@ public class MainMenuCtrl extends Application {
 
         String workFolder = commonPreferences.getWorkFolder();
 
-        if(workFolder != null) {
+        if(workFolder != null && Files.exists(Paths.get(workFolder)))
             directoryChooser.setInitialDirectory(new File(workFolder));
-        }
 
         File selectedDirectory =
                 directoryChooser.showDialog(primaryStage);
