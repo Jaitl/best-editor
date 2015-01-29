@@ -31,7 +31,7 @@ public class MainMenuCtrl extends Application {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("gui/main_menu.fxml"));
 
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 300, 240);
 
         scene.getStylesheets().add("gui/style.css");
 
