@@ -1,44 +1,63 @@
 package com.jaitlapps.besteditor;
 
-import com.jaitlapps.besteditor.domain.Group;
+import com.jaitlapps.besteditor.domain.GroupEntry;
 import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.acl.Group;
 import java.util.Date;
+import java.util.logging.Logger;
 
 public class GroupSaver {
 
-    private static CommonPreferences preferences = new CommonPreferences();
+    private static Logger log = Logger.getLogger(GroupManager.class.getName());
+    private static CommonPreferences preferences = CommonPreferences.getInstance();
+    private GroupManager groupManager = GroupManager.getInstance();
 
     public final static int IMAGE_HEIGHT = 350;
 
-    public void saveGroup(String title, File image) throws IOException {
-
-        Group group = new Group(title);
-
+    public void saveGroup(GroupEntry groupEntry, File icon) throws IOException {
         String workFolder = preferences.getWorkFolder();
 
-        if(workFolder == null) {
-            throw new IOException("Не выбрана рабочая папка");
+        String pathToImage = saveImage(icon);
+        groupEntry.setPathToImage(pathToImage);
+        groupEntry.setId(Generator.generateRandomId());
+
+        groupManager.addGroup(groupEntry);
+
+        groupManager.saveGroupsToFile();
+    }
+
+    public void updateGroup(GroupEntry groupEntry, File icon) {
+
+        // Првоерка не изменилась ли картинка по путям.
+        Path pathOldImage = Paths.get(groupEntry.getPathToImage());
+        pathOldImage = pathOldImage.subpath(pathOldImage.getNameCount() - 2, pathOldImage.getNameCount());
+
+        Path pathNewImage = Paths.get(icon.getPath());
+        pathNewImage = pathNewImage.subpath(pathNewImage.getNameCount() - 2, pathNewImage.getNameCount());
+
+        if(pathOldImage.compareTo(pathNewImage) != 0) {
+            Path pathToIcon = Paths.get(preferences.getWorkFolder(), groupEntry.getPathToImage());
+            try {
+                Files.delete(pathToIcon);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String newIcon = saveImage(icon);
+            groupEntry.setPathToImage(newIcon);
+
         }
 
-        String pathToImage = saveImage(image);
-        group.setPathToImage(pathToImage);
-        group.setId(generateRandomId());
-
-
-        GroupManager groupManager = GroupManager.getInstance();
-
-        groupManager.addGroup(group);
-
+        groupManager.updateGroup(groupEntry);
         groupManager.saveGroupsToFile();
     }
 
@@ -46,37 +65,18 @@ public class GroupSaver {
 
         BufferedImage originalImage = loadImage(image);
         BufferedImage resizeImage = resizeImage(originalImage);
-        String imageName = generateRandomId();
+        String imageName = Generator.generateRandomId();
 
-        Path pathToIconDir = Paths.get(preferences.getWorkFolder() + "\\icon");
-
-        if(Files.notExists(pathToIconDir)) {
-            try {
-                Files.createDirectory(pathToIconDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Path pathToGroupIconDir = pathToIconDir.resolve("group");
-
-        if(Files.notExists(pathToGroupIconDir)) {
-            try {
-                Files.createDirectory(pathToGroupIconDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Path pathToImage = pathToGroupIconDir.resolve(imageName + ".png");
+        Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", "group", imageName + ".png");
 
         try {
             ImageIO.write(resizeImage, "png", pathToImage.toFile());
+            log.info("save group icon to file: " + Paths.get("icon", "group", imageName + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return "group\\icon\\" + imageName + ".png";
+        return "icon\\group\\" + imageName + ".png";
     }
 
     private BufferedImage resizeImage(BufferedImage buffImage) {
@@ -93,35 +93,5 @@ public class GroupSaver {
         }
 
         return buffImage;
-    }
-
-    private String generateRandomId() {
-
-        byte[] dateByte = null;
-
-        try {
-            dateByte = new Date().toString().getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        MessageDigest messageDigest = null;
-
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        byte[] randomByte = messageDigest.digest(dateByte);
-
-        return byteArrayToHex(randomByte);
-    }
-
-    public static String byteArrayToHex(byte[] a) {
-        StringBuilder sb = new StringBuilder(a.length * 2);
-        for(byte b: a)
-            sb.append(String.format("%02x", b & 0xff));
-        return sb.toString();
     }
 }

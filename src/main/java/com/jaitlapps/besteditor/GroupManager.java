@@ -1,7 +1,7 @@
 package com.jaitlapps.besteditor;
 
-import com.jaitlapps.besteditor.domain.Group;
-import com.jaitlapps.besteditor.domain.GroupsListJSON;
+import com.jaitlapps.besteditor.domain.GroupEntry;
+import com.jaitlapps.besteditor.domain.GroupsListEntry;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -11,11 +11,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class GroupManager {
 
+    private static Logger log = Logger.getLogger(GroupManager.class.getName());
     private static final GroupManager INSTANCE  = new GroupManager();
-    private GroupsListJSON groupsListJSON;
+    private GroupsListEntry groupsListEntry;
     private ObjectMapper mapper;
 
     private Path pathToDataDir;
@@ -25,7 +27,7 @@ public class GroupManager {
         mapper = new ObjectMapper();
         mapper.setVisibility(JsonMethod.FIELD, JsonAutoDetect.Visibility.ANY);
 
-        CommonPreferences preferences = new CommonPreferences();
+        CommonPreferences preferences = CommonPreferences.getInstance();
 
         pathToDataDir = Paths.get(preferences.getWorkFolder(), "data");
         pathToGroupData = pathToDataDir.resolve("group.json");
@@ -37,46 +39,40 @@ public class GroupManager {
         return INSTANCE;
     }
 
-    public void addGroup(Group group) {
-        groupsListJSON.addGroup(group);
+    public void updateGroup(GroupEntry groupEntry) {
+        groupsListEntry.updateGroup(groupEntry);
+        log.info("update group: " + groupEntry.getId());
     }
-    public List<Group> getGroups() {
-        return groupsListJSON.getList();
+
+    public void addGroup(GroupEntry groupEntry) {
+        groupsListEntry.addGroup(groupEntry);
+        log.info("add group: " + groupEntry.getId());
+    }
+
+    public List<GroupEntry> getGroups() {
+        return groupsListEntry.getList();
     }
 
     public void saveGroupsToFile() {
-        if(Files.notExists(pathToDataDir)) {
-            try {
-                Files.createDirectory(pathToDataDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         try {
-            mapper.writeValue(pathToGroupData.toFile(), groupsListJSON);
+            mapper.writeValue(pathToGroupData.toFile(), groupsListEntry);
+            log.info("save groups to file");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void loadGroupsFromFile() {
-        if(Files.notExists(pathToDataDir)) {
-            try {
-                Files.createDirectory(pathToDataDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         if(Files.exists(pathToGroupData)) {
             try {
-                groupsListJSON = mapper.readValue(pathToGroupData.toFile(), GroupsListJSON.class);
+                groupsListEntry = mapper.readValue(pathToGroupData.toFile(), GroupsListEntry.class);
+                log.info("save groups from file");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            groupsListJSON = new GroupsListJSON();
+            groupsListEntry = new GroupsListEntry();
+            log.info("create new group list");
         }
     }
 }

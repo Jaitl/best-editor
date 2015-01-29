@@ -2,17 +2,12 @@ package com.jaitlapps.besteditor.domain;
 
 import java.io.File;
 
-public class Group {
+public class GroupEntry {
     private String id;
     private String title;
     private String pathToImage;
 
-    public Group(String title) {
-
-        this.title = title;
-    }
-
-    public Group() {
+    public GroupEntry() {
     }
 
     public String getId() {
@@ -22,7 +17,6 @@ public class Group {
     public void setId(String id) {
         this.id = id;
     }
-
 
     public String getTitle() {
         return title;

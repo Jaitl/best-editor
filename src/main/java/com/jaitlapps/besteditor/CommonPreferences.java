@@ -5,9 +5,15 @@ import java.util.prefs.Preferences;
 public class CommonPreferences {
     private Preferences preferences;
 
+    private static final CommonPreferences INSTANCE = new CommonPreferences();
+
+    public static CommonPreferences getInstance() {
+        return INSTANCE;
+    }
+
     public static final String WORK_FOLDER = "work_folder";
 
-    public CommonPreferences() {
+    private CommonPreferences() {
         preferences = Preferences.userNodeForPackage(Preferences.class);
     }
 

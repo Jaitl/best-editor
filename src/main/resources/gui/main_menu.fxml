@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane fx:id="mainMenuPane" fx:controller="com.jaitlapps.besteditor.gui.MainMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="mainMenuPane" fx:controller="com.jaitlapps.besteditor.gui.MainMenuCtrl" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -23,8 +23,8 @@
    <center>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Список групп" onAction="#ListGroups" />
-            <Button mnemonicParsing="false" text="Добавить группу" onAction="#AddGroup">
+            <Button mnemonicParsing="false" text="Список групп" onAction="#listGroups" />
+            <Button mnemonicParsing="false" text="Добавить группу" onAction="#addGroup">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
