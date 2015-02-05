@@ -13,3 +13,7 @@
     -fx-border-width: 1;
     -fx-border-style: solid;
 }
+
+.block_back {
+    -fx-background-color: #fbfbfe;
+}

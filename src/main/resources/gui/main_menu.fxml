@@ -28,7 +28,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Редактор статей">
+            <Button mnemonicParsing="false" text="Редактор статей" onAction="#recordEditor">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

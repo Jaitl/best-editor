@@ -89,6 +89,27 @@ public class MainMenuCtrl extends Application {
     }
 
     @FXML
+    private void recordEditor() throws IOException {
+        Stage stage = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getClassLoader().getResourceAsStream("gui/record_list.fxml"));
+
+        RecordListCtrl recordListCtrl = fxmlLoader.getController();
+
+        stage.setTitle("Список статей");
+        Scene scene = new Scene(root, 500, 500);
+        stage.setMinWidth(500);
+        stage.setMinHeight(500);
+
+        scene.getStylesheets().add("gui/style.css");
+
+        stage.setScene(scene);
+        recordListCtrl.loadListRecords();
+        stage.show();
+    }
+
+    @FXML
     private void closeDialog(ActionEvent event) {
         Platform.exit();
     }
