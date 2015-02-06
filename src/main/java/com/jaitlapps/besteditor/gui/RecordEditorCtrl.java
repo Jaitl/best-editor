@@ -3,22 +3,17 @@ package com.jaitlapps.besteditor.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.stage.Stage;
 
-public class RecordEditorCtrl {
+public class RecordEditorCtrl extends EditorCtrl {
 
-    @FXML
-    private void selectImage() {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-    }
-
-    @FXML
-    private void cancelDialog(ActionEvent event) {
-        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
     @FXML
     private void saveRecord() {
 
     }
-
 }

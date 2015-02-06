@@ -21,8 +21,6 @@ public class GroupSaver {
     private static CommonPreferences preferences = CommonPreferences.getInstance();
     private GroupManager groupManager = GroupManager.getInstance();
 
-    public final static int IMAGE_HEIGHT = 350;
-
     public void saveGroup(GroupEntry groupEntry, File icon) throws IOException {
         String workFolder = preferences.getWorkFolder();
 
@@ -94,7 +92,7 @@ public class GroupSaver {
     }
 
     private BufferedImage resizeImage(BufferedImage buffImage) {
-        return Scalr.resize(buffImage, IMAGE_HEIGHT);
+        return Scalr.resize(buffImage, Saver.IMAGE_HEIGHT);
     }
 
     private BufferedImage loadImage(File image) {
