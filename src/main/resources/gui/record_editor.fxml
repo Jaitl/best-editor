@@ -123,12 +123,12 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Сохранить статью">
+            <Button mnemonicParsing="false" text="Сохранить статью" onAction="#saveRecord">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Закрыть окно" />
+            <Button mnemonicParsing="false" text="Закрыть окно" onAction="#cancelDialog" />
          </children>
          <BorderPane.margin>
             <Insets top="10.0" />
