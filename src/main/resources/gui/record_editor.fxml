@@ -123,12 +123,12 @@
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Сохранить статью" onAction="#saveRecord">
+            <Button mnemonicParsing="false" onAction="#saveRecord" text="Сохранить статью">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Закрыть окно" onAction="#cancelDialog" />
+            <Button mnemonicParsing="false" onAction="#cancelDialog" text="Закрыть окно" />
          </children>
          <BorderPane.margin>
             <Insets top="10.0" />
@@ -139,12 +139,12 @@
       <VBox BorderPane.alignment="CENTER">
          <children>
             <Label text="Содержание статьи:" />
-            <TextArea>
+            <TextArea VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </TextArea>
-            <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox nodeOrientation="RIGHT_TO_LEFT">
                <children>
                   <Button mnemonicParsing="false" text="Предпросмотр статьи">
                      <HBox.margin>
