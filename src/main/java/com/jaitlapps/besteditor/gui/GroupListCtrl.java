@@ -1,7 +1,8 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.EntryManager;
+import com.jaitlapps.besteditor.gui.editor.GroupEditorCtrl;
+import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.application.Application;

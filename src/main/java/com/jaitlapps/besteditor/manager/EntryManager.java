@@ -1,9 +1,11 @@
-package com.jaitlapps.besteditor;
+package com.jaitlapps.besteditor.manager;
 
 import com.google.gson.Gson;
+import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
-import com.jaitlapps.besteditor.domain.ListEntry;
+import com.jaitlapps.besteditor.domain.RecordEntry;
+import com.jaitlapps.besteditor.domain.list.ListEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,6 +44,13 @@ public abstract class EntryManager<T extends Entry> {
             entryMap.put("group", new GroupManager());
 
         return (GroupManager) entryMap.get("group");
+    }
+
+    public static EntryManager<RecordEntry> createRecordManager() {
+        if(!entryMap.containsKey("record"))
+            entryMap.put("record", new RecordManager());
+
+        return (RecordManager) entryMap.get("record");
     }
 
     public void add(T entry) {

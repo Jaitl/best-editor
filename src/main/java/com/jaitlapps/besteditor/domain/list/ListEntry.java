@@ -1,4 +1,6 @@
-package com.jaitlapps.besteditor.domain;
+package com.jaitlapps.besteditor.domain.list;
+
+import com.jaitlapps.besteditor.domain.Entry;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.jaitlapps.besteditor;
+package com.jaitlapps.besteditor.manager;
 
 import com.jaitlapps.besteditor.domain.GroupEntry;
-import com.jaitlapps.besteditor.domain.GroupListEntry;
+import com.jaitlapps.besteditor.domain.list.GroupListEntry;
 
 import java.io.IOException;
 import java.nio.file.Files;

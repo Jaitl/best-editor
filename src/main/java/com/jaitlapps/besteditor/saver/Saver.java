@@ -2,7 +2,7 @@ package com.jaitlapps.besteditor.saver;
 
 
 import com.jaitlapps.besteditor.CommonPreferences;
-import com.jaitlapps.besteditor.EntryManager;
+import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.Generator;
 import org.imgscalr.Scalr;
 

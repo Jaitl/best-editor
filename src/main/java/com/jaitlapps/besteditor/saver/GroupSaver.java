@@ -1,6 +1,6 @@
 package com.jaitlapps.besteditor.saver;
 
-import com.jaitlapps.besteditor.EntryManager;
+import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.Generator;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 
@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 public class GroupSaver extends Saver {
     private EntryManager<GroupEntry> entryManager = EntryManager.createGroupManager();;
 
-    public void saveGroup(GroupEntry groupEntry, File icon) throws IOException {
+    public void saveGroup(GroupEntry groupEntry, File icon) {
         String pathToImage = saveImage(icon, "group");
         groupEntry.setPathToImage(pathToImage);
         groupEntry.setId(Generator.generateRandomId());

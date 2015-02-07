@@ -8,12 +8,12 @@
 
 
 <?import java.net.URL?>
-<BorderPane fx:controller="com.jaitlapps.besteditor.gui.GroupEditorCtrl" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="com.jaitlapps.besteditor.gui.editor.GroupEditorCtrl" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <center>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER" styleClass="block_back">
          <children>
             <Label text="Название группы:" />
-            <TextField fx:id="groupTitleField">
+            <TextField fx:id="titleField">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>

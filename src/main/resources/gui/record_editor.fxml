@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaitlapps.besteditor.gui.RecordEditorCtrl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaitlapps.besteditor.gui.editor.RecordEditorCtrl">
    <top>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
                         <VBox>
                            <children>
                               <Label text="Название статьи:" />
-                              <TextField />
+                              <TextField fx:id="titleField" />
                            </children>
                         </VBox>
                         <VBox>

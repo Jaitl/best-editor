@@ -1,4 +1,4 @@
-package com.jaitlapps.besteditor.gui;
+package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.saver.Saver;
@@ -32,7 +32,7 @@ public abstract class EditorCtrl extends Application {
     protected ImageView imageView;
 
     @FXML
-    protected TextField groupTitleField;
+    protected TextField titleField;
 
     protected EditorMode currentMode = EditorMode.ADD;
 
@@ -91,7 +91,7 @@ public abstract class EditorCtrl extends Application {
     }
 
     protected void clearDialog() {
-        groupTitleField.setText("");
+        titleField.setText("");
         imageView.setImage(null);
     }
 

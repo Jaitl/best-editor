@@ -1,4 +1,4 @@
-package com.jaitlapps.besteditor.gui;
+package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
@@ -23,29 +23,24 @@ public class GroupEditorCtrl extends EditorCtrl {
 
     @FXML
     private void saveGroup(ActionEvent event) {
-        groupEntry.setTitle(groupTitleField.getText());
+        groupEntry.setTitle(titleField.getText());
 
         if (groupEntry.getTitle() != null && groupEntry.getTitle().length() > 0) {
             if (currentImage != null) {
                 GroupSaver groupSaver = new GroupSaver();
 
-                try {
-                    if(currentMode == EditorMode.ADD) {
-                        log.info("save group: " + groupEntry.getTitle());
-                        groupSaver.saveGroup(groupEntry, currentImage);
-                        clearDialog();
+                if(currentMode == EditorMode.ADD) {
+                    log.info("save group: " + groupEntry.getTitle());
+                    groupSaver.saveGroup(groupEntry, currentImage);
+                    clearDialog();
 
-                        groupEntry = new GroupEntry();
-                    } else if(currentMode == EditorMode.EDIT) {
-                        log.info("update group: " + groupEntry.getTitle());
-                        groupSaver.updateGroup(groupEntry, currentImage);
-                    }
-
-                    cancelDialog(event);
-
-                } catch (IOException e) {
-                    AlertInfo.showAlert("Ошибка", e.getMessage());
+                    groupEntry = new GroupEntry();
+                } else if(currentMode == EditorMode.EDIT) {
+                    log.info("update group: " + groupEntry.getTitle());
+                    groupSaver.updateGroup(groupEntry, currentImage);
                 }
+
+                cancelDialog(event);
             } else {
                 AlertInfo.showAlert("Иконка группы не выбрана", "Иконка группы не выбрана!");
             }
@@ -62,7 +57,7 @@ public class GroupEditorCtrl extends EditorCtrl {
 
         this.groupEntry = groupEntry;
 
-        groupTitleField.setText(groupEntry.getTitle());
+        titleField.setText(groupEntry.getTitle());
 
         CommonPreferences preferences = CommonPreferences.getInstance();
         String pathToImage = preferences.getWorkFolder() + File.separator + groupEntry.getPathToImage();
