@@ -9,9 +9,4 @@ public class GroupEntry extends Entry {
         setTitle(groupEntry.getTitle());
         setPathToImage(groupEntry.getPathToImage());
     }
-
-    @Override
-    public String toString() {
-        return getTitle();
-    }
 }

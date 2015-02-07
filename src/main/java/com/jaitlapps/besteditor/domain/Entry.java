@@ -30,4 +30,9 @@ public abstract class Entry {
     }
 
     public abstract void update(Entry entry);
+
+    @Override
+    public String toString() {
+        return getTitle();
+    }
 }

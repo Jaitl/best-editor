@@ -1,18 +1,16 @@
 package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.domain.GroupEntry;
+import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
-import com.jaitlapps.besteditor.gui.editor.EditorCtrl;
-import com.jaitlapps.besteditor.manager.EntryManager;
-import com.jaitlapps.besteditor.manager.RecordManager;
-import com.jaitlapps.besteditor.saver.GroupSaver;
 import com.jaitlapps.besteditor.saver.RecordSaver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.File;
+import java.nio.file.Paths;
 
 public class RecordEditorCtrl extends EditorCtrl {
 
@@ -33,13 +31,13 @@ public class RecordEditorCtrl extends EditorCtrl {
 
                 if(currentMode == EditorMode.ADD) {
                     log.info("save record: " + recordEntry.getTitle());
-                    recordSaver.saveRecord(recordEntry, currentImage);
+                    recordSaver.save(recordEntry, currentImage);
                     clearDialog();
 
                     recordEntry = new RecordEntry();
                 } else if(currentMode == EditorMode.EDIT) {
                     log.info("update record: " + recordEntry.getTitle());
-                    //recordSaver.updateRecord(recordEntry, currentImage);
+                    recordSaver.update(recordEntry, currentImage);
                 }
 
                 cancelDialog(event);
@@ -49,5 +47,25 @@ public class RecordEditorCtrl extends EditorCtrl {
         } else {
             AlertInfo.showAlert("Поле не заполнено", "Поле \"Название статьи\" не заполнено!");
         }
+    }
+
+    @Override
+    public void setEntry(Entry entry) {
+        RecordEntry rEntry = (RecordEntry) entry;
+
+        log.info("set record entry for edit:" + rEntry.getId());
+
+        if(currentMode != EditorMode.EDIT)
+            enableEditMode();
+
+        this.recordEntry = rEntry;
+
+        titleField.setText(rEntry.getTitle());
+
+        CommonPreferences preferences = CommonPreferences.getInstance();
+        String pathToImage = preferences.getWorkFolder() + File.separator + rEntry.getPathToImage();
+        setImage(pathToImage);
+
+        currentImage = Paths.get(pathToImage).toFile();
     }
 }

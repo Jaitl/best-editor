@@ -18,8 +18,13 @@ public class GroupManager extends EntryManager<GroupEntry> {
             try {
                 byte[] jsonDataBytes = Files.readAllBytes(pathToEntryData);
                 String jsonData = new String(jsonDataBytes);
-                listEntry = gson.fromJson(jsonData, GroupListEntry.class);
-                log.info("save groups from file");
+                if(jsonData.length() > 0) {
+                    listEntry = gson.fromJson(jsonData, GroupListEntry.class);
+                    log.info("load groups from file");
+                } else {
+                    listEntry = new GroupListEntry();
+                    log.info("create new groups list");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

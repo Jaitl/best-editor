@@ -17,8 +17,13 @@ public class RecordManager extends EntryManager<RecordEntry> {
             try {
                 byte[] jsonDataBytes = Files.readAllBytes(pathToEntryData);
                 String jsonData = new String(jsonDataBytes);
-                listEntry = gson.fromJson(jsonData, RecordListEntry.class);
-                log.info("save records from file");
+                if(jsonData.length() > 0) {
+                    listEntry = gson.fromJson(jsonData, RecordListEntry.class);
+                    log.info("load records from file");
+                } else {
+                    listEntry = new RecordListEntry();
+                    log.info("create new records list");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -5,18 +5,18 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaitlapps.besteditor.gui.GroupListCtrl">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaitlapps.besteditor.gui.list.GroupListCtrl">
    <bottom>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#addGroup" text="Добавить группу">
+                  <Button mnemonicParsing="false" onAction="#add" text="Добавить группу">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#editGroup" text="Редактировать группу" />
+                  <Button mnemonicParsing="false" onAction="#edit" text="Редактировать группу" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" />
@@ -24,7 +24,7 @@
             </HBox>
             <HBox alignment="TOP_CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#deleteGroup" text="Удалить группу">
+                  <Button mnemonicParsing="false" onAction="#delete" text="Удалить группу">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -42,7 +42,7 @@
       </VBox>
    </bottom>
    <center>
-      <ListView fx:id="groupListView" onMouseClicked="#editGroupDouble" BorderPane.alignment="CENTER">
+      <ListView fx:id="listView" onMouseClicked="#editDouble" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin></ListView>

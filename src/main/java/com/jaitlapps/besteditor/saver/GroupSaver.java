@@ -1,62 +1,49 @@
 package com.jaitlapps.besteditor.saver;
 
-import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.Generator;
+import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
+import com.jaitlapps.besteditor.manager.EntryManager;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class GroupSaver extends Saver {
-    private EntryManager<GroupEntry> entryManager = EntryManager.createGroupManager();;
+public class GroupSaver extends EntrySaver {
+    private EntryManager<GroupEntry> groupManager = EntryManager.createGroupManager();
 
-    public void saveGroup(GroupEntry groupEntry, File icon) {
+    @Override
+    public void save(Entry entry, File icon) {
+        GroupEntry groupEntry = (GroupEntry) entry;
+
         String pathToImage = saveImage(icon, "group");
         groupEntry.setPathToImage(pathToImage);
         groupEntry.setId(Generator.generateRandomId());
 
-        entryManager.add(groupEntry);
-        entryManager.saveToFile();
+        groupManager.add(groupEntry);
+        groupManager.saveToFile();
     }
 
-    public void updateGroup(GroupEntry groupEntry, File icon) {
-        // Првоерка не изменилась ли картинка по путям.
-        Path pathOldImage = Paths.get(groupEntry.getPathToImage());
-        pathOldImage = pathOldImage.subpath(pathOldImage.getNameCount() - 2, pathOldImage.getNameCount());
+    @Override
+    public void update(Entry entry, File icon) {
+        GroupEntry groupEntry = (GroupEntry) entry;
 
-        Path pathNewImage = Paths.get(icon.getPath());
-        pathNewImage = pathNewImage.subpath(pathNewImage.getNameCount() - 2, pathNewImage.getNameCount());
-
-        if(pathOldImage.compareTo(pathNewImage) != 0) {
-            Path pathToIcon = Paths.get(preferences.getWorkFolder(), groupEntry.getPathToImage());
-            try {
-                Files.delete(pathToIcon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(isChangeIcon(groupEntry, icon)) {
+            deleteIcon(groupEntry);
 
             String newIcon = saveImage(icon, "group");
             groupEntry.setPathToImage(newIcon);
-
         }
 
-        entryManager.update(groupEntry);
-        entryManager.saveToFile();
+        groupManager.update(groupEntry);
+        groupManager.saveToFile();
     }
 
-    public void deleteGroup(GroupEntry groupEntry) {
-        Path pathToIcon = Paths.get(preferences.getWorkFolder(), groupEntry.getPathToImage());
-        try {
-            log.info("delete icon: " + groupEntry.getPathToImage());
-            Files.delete(pathToIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void delete(Entry entry) {
+        GroupEntry groupEntry = (GroupEntry) entry;
 
-        entryManager.delete(groupEntry);
-        entryManager.saveToFile();
+        deleteIcon(groupEntry);
+
+        groupManager.delete(groupEntry);
+        groupManager.saveToFile();
     }
 }

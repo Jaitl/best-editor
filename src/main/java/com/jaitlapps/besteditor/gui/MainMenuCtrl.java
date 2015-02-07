@@ -1,6 +1,8 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.gui.list.GroupListCtrl;
+import com.jaitlapps.besteditor.gui.list.RecordListCtrl;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -84,7 +86,7 @@ public class MainMenuCtrl extends Application {
         scene.getStylesheets().add("gui/style.css");
 
         stage.setScene(scene);
-        groupListCtrl.loadGroupsList();
+        groupListCtrl.loadList();
         stage.show();
     }
 
@@ -105,7 +107,7 @@ public class MainMenuCtrl extends Application {
         scene.getStylesheets().add("gui/style.css");
 
         stage.setScene(scene);
-        recordListCtrl.loadListRecords();
+        recordListCtrl.loadList();
         stage.show();
     }
 

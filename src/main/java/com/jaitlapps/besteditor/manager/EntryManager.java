@@ -28,8 +28,6 @@ public abstract class EntryManager<T extends Entry> {
     protected Path pathToDataDir;
     protected Path pathToEntryData;
 
-    protected Class<?> typeClass;
-
     protected EntryManager(String fileName) {
         CommonPreferences preferences = CommonPreferences.getInstance();
 
@@ -75,10 +73,9 @@ public abstract class EntryManager<T extends Entry> {
 
     public void saveToFile() {
         try {
-            //Type collectionType = new TypeToken<ListEntry<T>>(){}.getType();
             String jsonData = gson.toJson(listEntry);
-            Files.write(pathToEntryData, jsonData.getBytes("UTF-8"), StandardOpenOption.CREATE);
-            //mapper.writeValue(pathToEntryData.toFile(), listEntry);
+            Files.deleteIfExists(pathToEntryData);
+            Files.write(pathToEntryData, jsonData.getBytes("UTF-8"), StandardOpenOption.CREATE_NEW);
             log.info("save entries to file");
         } catch (IOException e) {
             e.printStackTrace();

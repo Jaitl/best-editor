@@ -1,7 +1,8 @@
 package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.saver.Saver;
+import com.jaitlapps.besteditor.domain.Entry;
+import com.jaitlapps.besteditor.saver.EntrySaver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,8 @@ public abstract class EditorCtrl extends Application {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
+    public abstract void setEntry(Entry entry);
+
     @FXML
     protected void selectImage(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -60,7 +63,7 @@ public abstract class EditorCtrl extends Application {
             }
             else {
                 AlertInfo.showAlert("Иконка слишком маленькая", "Иконка слишком маленькая, выберите иконку побольше");
-                log.info("icon for group is small then " + Saver.IMAGE_HEIGHT);
+                log.info("icon for group is small then " + EntrySaver.IMAGE_HEIGHT);
                 setImage(null);
                 currentImage = null;
             }
@@ -77,8 +80,8 @@ public abstract class EditorCtrl extends Application {
             e.printStackTrace();
         }
 
-        if (image != null && (image.getHeight() < Saver.IMAGE_HEIGHT
-                || image.getWidth() < Saver.IMAGE_HEIGHT)) {
+        if (image != null && (image.getHeight() < EntrySaver.IMAGE_HEIGHT
+                || image.getWidth() < EntrySaver.IMAGE_HEIGHT)) {
             return false;
         }
 

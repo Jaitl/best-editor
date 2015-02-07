@@ -2,6 +2,7 @@ package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.event.ActionEvent;
@@ -9,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 public class GroupEditorCtrl extends EditorCtrl {
@@ -31,13 +31,13 @@ public class GroupEditorCtrl extends EditorCtrl {
 
                 if(currentMode == EditorMode.ADD) {
                     log.info("save group: " + groupEntry.getTitle());
-                    groupSaver.saveGroup(groupEntry, currentImage);
+                    groupSaver.save(groupEntry, currentImage);
                     clearDialog();
 
                     groupEntry = new GroupEntry();
                 } else if(currentMode == EditorMode.EDIT) {
                     log.info("update group: " + groupEntry.getTitle());
-                    groupSaver.updateGroup(groupEntry, currentImage);
+                    groupSaver.update(groupEntry, currentImage);
                 }
 
                 cancelDialog(event);
@@ -49,18 +49,21 @@ public class GroupEditorCtrl extends EditorCtrl {
         }
     }
 
-    public void setGroupEntry(GroupEntry groupEntry) {
-        log.info("set group entry for edit:" + groupEntry.getId());
+    @Override
+    public void setEntry(Entry entry) {
+        GroupEntry gEntry = (GroupEntry) entry;
+
+        log.info("set group entry for edit:" + gEntry.getId());
 
         if(currentMode != EditorMode.EDIT)
             enableEditMode();
 
-        this.groupEntry = groupEntry;
+        this.groupEntry = gEntry;
 
-        titleField.setText(groupEntry.getTitle());
+        titleField.setText(gEntry.getTitle());
 
         CommonPreferences preferences = CommonPreferences.getInstance();
-        String pathToImage = preferences.getWorkFolder() + File.separator + groupEntry.getPathToImage();
+        String pathToImage = preferences.getWorkFolder() + File.separator + gEntry.getPathToImage();
         setImage(pathToImage);
 
         currentImage = Paths.get(pathToImage).toFile();
