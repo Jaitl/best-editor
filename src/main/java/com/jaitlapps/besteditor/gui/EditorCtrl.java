@@ -1,8 +1,7 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.GroupSaver;
-import com.jaitlapps.besteditor.Saver;
+import com.jaitlapps.besteditor.saver.Saver;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

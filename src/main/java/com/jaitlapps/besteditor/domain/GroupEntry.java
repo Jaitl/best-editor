@@ -1,37 +1,13 @@
 package com.jaitlapps.besteditor.domain;
 
-import java.io.File;
+public class GroupEntry extends Entry {
 
-public class GroupEntry {
-    private String id;
-    private String title;
-    private String pathToImage;
+    @Override
+    public void update(Entry entry) {
+        GroupEntry groupEntry = (GroupEntry) entry;
 
-    public GroupEntry() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPathToImage() {
-        return pathToImage;
-    }
-
-    public void setPathToImage(String pathToImage) {
-        this.pathToImage = pathToImage;
+        setTitle(groupEntry.getTitle());
+        setPathToImage(groupEntry.getPathToImage());
     }
 
     @Override

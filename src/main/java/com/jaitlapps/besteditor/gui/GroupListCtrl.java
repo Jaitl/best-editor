@@ -1,9 +1,9 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.GroupManager;
-import com.jaitlapps.besteditor.GroupSaver;
+import com.jaitlapps.besteditor.EntryManager;
 import com.jaitlapps.besteditor.domain.GroupEntry;
+import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,7 +29,7 @@ public class GroupListCtrl extends Application {
 
     private ObservableList<GroupEntry> data;
 
-    private GroupManager groupManager;
+    private EntryManager<GroupEntry> entryManager;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -37,16 +37,16 @@ public class GroupListCtrl extends Application {
     }
 
     public void loadGroupsList() {
-        groupManager = GroupManager.getInstance();
+        entryManager = EntryManager.createGroupManager();
 
-        data = FXCollections.observableArrayList(groupManager.getGroups());
+        data = FXCollections.observableArrayList(entryManager.getList());
 
         groupListView.setItems(data);
     }
 
     private void updateGroupsList() {
         data.clear();
-        data.addAll(groupManager.getGroups());
+        data.addAll(entryManager.getList());
         log.info("update group list");
     }
 

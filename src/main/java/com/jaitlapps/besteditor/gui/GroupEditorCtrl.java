@@ -2,25 +2,15 @@ package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
-import com.jaitlapps.besteditor.GroupSaver;
-import com.jaitlapps.besteditor.Saver;
 import com.jaitlapps.besteditor.domain.GroupEntry;
-import javafx.application.Application;
+import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 public class GroupEditorCtrl extends EditorCtrl {
 
