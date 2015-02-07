@@ -16,11 +16,6 @@ public class GroupEditorCtrl extends EditorCtrl {
 
     private GroupEntry groupEntry  = new GroupEntry();;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-    }
-
     @FXML
     private void saveGroup(ActionEvent event) {
         groupEntry.setTitle(titleField.getText());

@@ -35,6 +35,7 @@ public class RecordListCtrl extends ListCtrl<RecordEntry> {
         }
 
         RecordEditorCtrl recordEditorCtrl = loader.getController();
+        recordEditorCtrl.loadGroups();
 
         if(openForEdit) {
             recordEditorCtrl.enableEditMode();

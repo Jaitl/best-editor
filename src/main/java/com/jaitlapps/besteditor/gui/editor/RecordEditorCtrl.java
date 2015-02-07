@@ -3,10 +3,18 @@ package com.jaitlapps.besteditor.gui.editor;
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.domain.Entry;
+import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
+import com.jaitlapps.besteditor.manager.EntryManager;
+import com.jaitlapps.besteditor.manager.GroupManager;
 import com.jaitlapps.besteditor.saver.RecordSaver;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -14,11 +22,22 @@ import java.nio.file.Paths;
 
 public class RecordEditorCtrl extends EditorCtrl {
 
+    @FXML
+    private TextField authorNameField;
+    @FXML
+    private TextField authorUrlField;
+    @FXML
+    private CheckBox isAuthorCheckBox;
+    @FXML
+    private ComboBox<GroupEntry> groupComboBox;
+
     private RecordEntry recordEntry = new RecordEntry();
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void loadGroups() {
+        EntryManager<GroupEntry> entryManager = EntryManager.createGroupManager();
+        ObservableList<GroupEntry> myComboBoxData = FXCollections.observableArrayList(entryManager.getList());
 
+        groupComboBox.setItems(myComboBoxData);
     }
 
     @FXML
@@ -67,5 +86,16 @@ public class RecordEditorCtrl extends EditorCtrl {
         setImage(pathToImage);
 
         currentImage = Paths.get(pathToImage).toFile();
+    }
+
+    @FXML
+    private void isAuthorAction() {
+        if(isAuthorCheckBox.isSelected()) {
+            authorNameField.setEditable(false);
+            authorUrlField.setEditable(false);
+        } else {
+            authorNameField.setEditable(true);
+            authorUrlField.setEditable(true);
+        }
     }
 }

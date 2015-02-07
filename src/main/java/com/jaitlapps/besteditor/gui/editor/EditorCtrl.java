@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,6 +24,7 @@ public abstract class EditorCtrl extends Application {
     public enum EditorMode {
         ADD,
         EDIT;
+
     }
 
     protected static Logger log = Logger.getLogger(EditorCtrl.class.getName());
@@ -106,5 +108,10 @@ public abstract class EditorCtrl extends Application {
     public void enableEditMode() {
         currentMode = EditorMode.EDIT;
         log.info("editor in edit mode");
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
     }
 }
