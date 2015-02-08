@@ -13,9 +13,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class RecordEditorCtrl extends EditorCtrl {
@@ -28,6 +32,8 @@ public class RecordEditorCtrl extends EditorCtrl {
     private CheckBox isAuthorCheckBox;
     @FXML
     private ComboBox<GroupEntry> groupComboBox;
+    @FXML
+    private TextArea contentTextArea;
 
     private RecordEntry currentRecordEntry = new RecordEntry();
 
@@ -47,13 +53,13 @@ public class RecordEditorCtrl extends EditorCtrl {
 
             if (currentMode == EditorMode.ADD) {
                 log.info("save record: " + currentRecordEntry.getTitle());
-                recordSaver.save(currentRecordEntry, currentImage);
+                recordSaver.save(currentRecordEntry, currentIcon, contentTextArea.getText());
                 clearDialog();
 
                 currentRecordEntry = new RecordEntry();
             } else if (currentMode == EditorMode.EDIT) {
                 log.info("update record: " + currentRecordEntry.getTitle());
-                recordSaver.update(currentRecordEntry, currentImage);
+                recordSaver.update(currentRecordEntry, currentIcon, contentTextArea.getText());
             }
 
             cancelDialog(event);
@@ -70,8 +76,8 @@ public class RecordEditorCtrl extends EditorCtrl {
             return null;
         }
 
-        if(currentImage == null) {
-            AlertInfo.showAlert("Иконка статьи не выбрана", "Иконка статьи не выбрана!");
+        if(currentIcon == null) {
+            AlertInfo.showAlert("Поле не заполнено", "Поле \"Иконка статьи\" не заполнено!");
             return null;
         }
 
@@ -80,7 +86,7 @@ public class RecordEditorCtrl extends EditorCtrl {
             currentRecordEntry.setGroupId(groupEntry.getId());
         } else {
             currentRecordEntry.setGroupId(null);
-            AlertInfo.showAlert("Группа для статьи не выбрана", "Группа для статьи не выбрана!");
+            AlertInfo.showAlert("Поле не заполнено", "Поле \"Группа\" не заполнено!");
             return null;
         }
 
@@ -95,7 +101,7 @@ public class RecordEditorCtrl extends EditorCtrl {
                 currentRecordEntry.setAuthorName(authorNameField.getText());
             } else {
                 currentRecordEntry.setAuthorName(null);
-                AlertInfo.showAlert("Поле \"Имя автора\" не заполнено", "Поле \"Имя автора\" не заполнено!");
+                AlertInfo.showAlert("Поле не заполнено", "Поле \"Имя автора\" не заполнено!");
                 return null;
             }
 
@@ -103,9 +109,14 @@ public class RecordEditorCtrl extends EditorCtrl {
                 currentRecordEntry.setAuthorURL(authorUrlField.getText());
             } else {
                 currentRecordEntry.setAuthorURL(null);
-                AlertInfo.showAlert("Поле \"Ссылка на статью\" не заполнено", "Поле \"Ссылка на статью\" не заполнено!");
+                AlertInfo.showAlert("Поле не заполнено", "Поле \"Ссылка на статью\" не заполнено!");
                 return null;
             }
+        }
+
+        if(contentTextArea.getText().length() <= 0) {
+            AlertInfo.showAlert("Поле не заполнено", "Поле \"Содержание статьи\" не заполнено!");
+            return null;
         }
 
         return currentRecordEntry;
@@ -128,7 +139,7 @@ public class RecordEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + recordEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentImage = Paths.get(pathToImage).toFile();
+        currentIcon = loadIcon(Paths.get(pathToImage).toFile());
 
         GroupEntry selectedGroupEntry = groupComboBox.getItems().stream()
                 .filter(x -> x.getId().compareTo(recordEntry.getGroupId()) == 0).findFirst().get();
@@ -142,6 +153,17 @@ public class RecordEditorCtrl extends EditorCtrl {
             isAuthorCheckBox.setSelected(true);
             isAuthorExistAction();
         }
+
+        Path pathToContent = Paths.get(preferences.getWorkFolder(), recordEntry.getPathToContent());
+        byte[] bytesContent = null;
+        try {
+            bytesContent = Files.readAllBytes(pathToContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String content = new String(bytesContent);
+        contentTextArea.setText(content);
     }
 
     @FXML

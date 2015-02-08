@@ -153,5 +153,14 @@ public class MainMenuCtrl extends Application {
                 e.printStackTrace();
             }
         }
+
+        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "content"))) {
+            try {
+                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "content"));
+                log.info("create directory: \\content");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

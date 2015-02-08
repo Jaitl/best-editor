@@ -3,8 +3,9 @@ package com.jaitlapps.besteditor.domain;
 public class RecordEntry extends Entry {
     private String groupId;
     private boolean isAuthorExist;
-    private String AuthorName;
-    private String AuthorURL;
+    private String authorName;
+    private String authorURL;
+    private String pathToContent;
 
     @Override
     public void update(Entry entry) {
@@ -35,18 +36,26 @@ public class RecordEntry extends Entry {
     }
 
     public String getAuthorName() {
-        return AuthorName;
+        return authorName;
     }
 
     public void setAuthorName(String authorName) {
-        AuthorName = authorName;
+        this.authorName = authorName;
     }
 
     public String getAuthorURL() {
-        return AuthorURL;
+        return authorURL;
     }
 
     public void setAuthorURL(String authorURL) {
-        AuthorURL = authorURL;
+        this.authorURL = authorURL;
+    }
+
+    public String getPathToContent() {
+        return pathToContent;
+    }
+
+    public void setPathToContent(String pathToContent) {
+        this.pathToContent = pathToContent;
     }
 }

@@ -144,7 +144,7 @@
       <VBox BorderPane.alignment="CENTER">
          <children>
             <Label text="Содержание статьи:" />
-            <TextArea VBox.vgrow="ALWAYS">
+            <TextArea fx:id="contentTextArea" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>

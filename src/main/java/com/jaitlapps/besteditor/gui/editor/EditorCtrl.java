@@ -24,19 +24,16 @@ public abstract class EditorCtrl extends Application {
     public enum EditorMode {
         ADD,
         EDIT;
-
     }
 
     protected static Logger log = Logger.getLogger(EditorCtrl.class.getName());
 
-    protected File currentImage;
+    protected BufferedImage currentIcon;
 
     @FXML
     protected ImageView imageView;
-
     @FXML
     protected TextField titleField;
-
     protected EditorMode currentMode = EditorMode.ADD;
 
     @FXML
@@ -59,29 +56,34 @@ public abstract class EditorCtrl extends Application {
         File selectedImage = fileChooser.showOpenDialog(null);
         log.info("selected icon:" + selectedImage);
         if (selectedImage != null) {
-            if(validateIconSize(selectedImage)) {
+            BufferedImage icon = loadIcon(selectedImage);
+
+            if(validateIconSize(icon)) {
                 setImage(selectedImage.getPath());
-                currentImage = selectedImage;
+                currentIcon = icon;
             }
             else {
                 AlertInfo.showAlert("Иконка слишком маленькая", "Иконка слишком маленькая, выберите иконку побольше");
                 log.info("icon for group is small then " + EntrySaver.IMAGE_HEIGHT);
                 setImage(null);
-                currentImage = null;
+                currentIcon = null;
             }
         }
     }
 
-    protected boolean validateIconSize(File selectedImage) {
-
-        BufferedImage image = null;
+    protected BufferedImage loadIcon(File image) {
+        BufferedImage buffImage = null;
 
         try {
-            image = ImageIO.read(selectedImage);
+            buffImage = ImageIO.read(image);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return buffImage;
+    }
+
+    protected boolean validateIconSize(BufferedImage image) {
         if (image != null && (image.getHeight() < EntrySaver.IMAGE_HEIGHT
                 || image.getWidth() < EntrySaver.IMAGE_HEIGHT)) {
             return false;

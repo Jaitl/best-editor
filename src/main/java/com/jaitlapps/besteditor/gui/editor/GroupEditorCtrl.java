@@ -21,23 +21,23 @@ public class GroupEditorCtrl extends EditorCtrl {
         groupEntry.setTitle(titleField.getText());
 
         if (groupEntry.getTitle() != null && groupEntry.getTitle().length() > 0) {
-            if (currentImage != null) {
+            if (currentIcon != null) {
                 GroupSaver groupSaver = new GroupSaver();
 
                 if(currentMode == EditorMode.ADD) {
                     log.info("save group: " + groupEntry.getTitle());
-                    groupSaver.save(groupEntry, currentImage);
+                    groupSaver.save(groupEntry, currentIcon);
                     clearDialog();
 
                     groupEntry = new GroupEntry();
                 } else if(currentMode == EditorMode.EDIT) {
                     log.info("update group: " + groupEntry.getTitle());
-                    groupSaver.update(groupEntry, currentImage);
+                    groupSaver.update(groupEntry, currentIcon);
                 }
 
                 cancelDialog(event);
             } else {
-                AlertInfo.showAlert("Иконка группы не выбрана", "Иконка группы не выбрана!");
+                AlertInfo.showAlert("Поле не заполнено", "Поле \"Иконка группы\" не заполнено!\"");
             }
         } else {
             AlertInfo.showAlert("Поле не заполнено", "Поле \"Название группы\" не заполнено!");
@@ -61,6 +61,6 @@ public class GroupEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + gEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentImage = Paths.get(pathToImage).toFile();
+        currentIcon = loadIcon(Paths.get(pathToImage).toFile());
     }
 }
