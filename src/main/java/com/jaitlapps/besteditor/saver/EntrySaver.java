@@ -3,13 +3,12 @@ package com.jaitlapps.besteditor.saver;
 
 import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.Generator;
+import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
-import org.imgscalr.Scalr;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,8 +21,8 @@ public abstract class EntrySaver {
     protected static Logger log = Logger.getLogger(EntryManager.class.getName());
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
 
-    protected String saveImage(BufferedImage originalImage, String folder) {
-        BufferedImage resizeImage = resizeImage(originalImage);
+    protected String saveIcon(BufferedImage originalImage, String folder) {
+        BufferedImage resizeImage = ImageEditor.resizeImage(originalImage, IMAGE_HEIGHT);
         String imageName = Generator.generateRandomId();
 
         Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", folder, imageName + ".png");
@@ -35,11 +34,7 @@ public abstract class EntrySaver {
             e.printStackTrace();
         }
 
-        return "icon\\" + folder + "\\" + imageName + ".png";
-    }
-
-    private BufferedImage resizeImage(BufferedImage buffImage) {
-        return Scalr.resize(buffImage, EntrySaver.IMAGE_HEIGHT);
+        return "icon/" + folder + "/" + imageName + ".png";
     }
 
     protected void deleteIcon(Entry entry) {

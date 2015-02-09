@@ -40,7 +40,7 @@ public class RecordListCtrl extends ListCtrl<RecordEntry> {
         if(openForEdit) {
             recordEditorCtrl.enableEditMode();
             recordEditorCtrl.loadGroups();
-            recordEditorCtrl.setEntry(recordEntry);
+            recordEditorCtrl.initEditorForEditMode(recordEntry);
         } else {
             recordEditorCtrl.enableAddMode();
         }

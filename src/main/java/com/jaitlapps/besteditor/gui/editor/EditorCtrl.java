@@ -1,9 +1,9 @@
 package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
+import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.saver.EntrySaver;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,15 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
 
-public abstract class EditorCtrl extends Application {
+public abstract class EditorCtrl {
 
     public enum EditorMode {
         ADD,
@@ -41,7 +38,7 @@ public abstract class EditorCtrl extends Application {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
-    public abstract void setEntry(Entry entry);
+    public abstract void initEditorForEditMode(Entry entry);
 
     @FXML
     protected void selectImage(ActionEvent event) {
@@ -56,7 +53,7 @@ public abstract class EditorCtrl extends Application {
         File selectedImage = fileChooser.showOpenDialog(null);
         log.info("selected icon:" + selectedImage);
         if (selectedImage != null) {
-            BufferedImage icon = loadIcon(selectedImage);
+            BufferedImage icon = ImageEditor.loadImage(selectedImage);
 
             if(validateIconSize(icon)) {
                 setImage(selectedImage.getPath());
@@ -69,18 +66,6 @@ public abstract class EditorCtrl extends Application {
                 currentIcon = null;
             }
         }
-    }
-
-    protected BufferedImage loadIcon(File image) {
-        BufferedImage buffImage = null;
-
-        try {
-            buffImage = ImageIO.read(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return buffImage;
     }
 
     protected boolean validateIconSize(BufferedImage image) {
@@ -97,11 +82,6 @@ public abstract class EditorCtrl extends Application {
         imageView.setImage(icon);
     }
 
-    protected void clearDialog() {
-        titleField.setText("");
-        imageView.setImage(null);
-    }
-
     public void enableAddMode() {
         currentMode = EditorMode.ADD;
         log.info("editor in add mode");
@@ -110,10 +90,5 @@ public abstract class EditorCtrl extends Application {
     public void enableEditMode() {
         currentMode = EditorMode.EDIT;
         log.info("editor in edit mode");
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
     }
 }

@@ -6,13 +6,12 @@ import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.manager.EntryManager;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class GroupSaver extends EntrySaver {
     private EntryManager<GroupEntry> groupManager = EntryManager.createGroupManager();
 
     public void save(GroupEntry groupEntry, BufferedImage icon) {
-        String pathToImage = saveImage(icon, "group");
+        String pathToImage = saveIcon(icon, "group");
         groupEntry.setPathToImage(pathToImage);
         groupEntry.setId(Generator.generateRandomId());
 
@@ -24,7 +23,7 @@ public class GroupSaver extends EntrySaver {
 
         deleteIcon(groupEntry);
 
-        String newIcon = saveImage(icon, "group");
+        String newIcon = saveIcon(icon, "group");
         groupEntry.setPathToImage(newIcon);
 
         groupManager.update(groupEntry);

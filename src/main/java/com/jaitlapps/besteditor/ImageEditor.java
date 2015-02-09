@@ -1,6 +1,5 @@
 package com.jaitlapps.besteditor;
 
-import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import org.imgscalr.Scalr;
 
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 public class ImageEditor {
     private int counter;
 
-    private List<String> imagesList = new ArrayList<>();
+    private List<String> addedImagesList = new ArrayList<>();
 
     public final static int IMAGE_SIZE = 1024;
 
@@ -43,11 +42,11 @@ public class ImageEditor {
             BufferedImage image = loadImage(selectedImage);
 
             if(!validateImageSize(image)) {
-                image = resizeImage(image);
+                image = resizeImage(image, IMAGE_SIZE);
             }
 
             String pathToImage = saveImage(image);
-            imagesList.add(pathToImage);
+            addedImagesList.add(pathToImage);
 
             return urlToMarkDownImageLink(pathToImage);
         }
@@ -57,21 +56,21 @@ public class ImageEditor {
 
     public void deleteNoUsingImages(String text) {
         List<String> findImages = findImagesInText(text);
-        imagesList.removeAll(findImages);
+        addedImagesList.removeAll(findImages);
 
-        imagesList.forEach(i -> deleteImages(i));
+        addedImagesList.forEach(i -> deleteImages(i));
     }
 
-    public void deleteAllImages(String text) {
+    public static void deleteAllImages(String text) {
         List<String> findImages = findImagesInText(text);
         findImages.forEach(i -> deleteImages(i));
     }
 
     public void findAndLoadImages(String text) {
-        imagesList.addAll(findImagesInText(text));
+        addedImagesList.addAll(findImagesInText(text));
     }
 
-    private void deleteImages(String url) {
+    private static void deleteImages(String url) {
         Path pathToImage = Paths.get(preferences.getWorkFolder(), "content", url);
         log.info("delete image: " + url);
         try {
@@ -81,16 +80,16 @@ public class ImageEditor {
         }
     }
 
-    private List<String> findImagesInText(String text) {
+    private static List<String> findImagesInText(String text) {
         return findInText(text, "\\(.*?jpg\\)").stream()
                 .map(u -> u.substring(1, u.length() - 1)).collect(Collectors.toList());
     }
 
-    public List<String> findMarkUrlInText(String text) {
+    public static List<String> findMarkUrlInText(String text) {
         return findInText(text, "!\\[[^\\[\\]]*?\\]\\(.*?jpg\\)");
     }
 
-    private List<String> findInText(String text, String regex) {
+    private static List<String> findInText(String text, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
 
@@ -104,7 +103,7 @@ public class ImageEditor {
         return findImages;
     }
 
-    protected BufferedImage loadImage(File image) {
+    public static BufferedImage loadImage(File image) {
         BufferedImage buffImage = null;
 
         try {
@@ -125,9 +124,9 @@ public class ImageEditor {
         return false;
     }
 
-    private BufferedImage resizeImage(BufferedImage buffImage) {
+    public static BufferedImage resizeImage(BufferedImage buffImage, int imageSize) {
         log.info("resize image");
-        return Scalr.resize(buffImage, Scalr.Method.QUALITY, IMAGE_SIZE);
+        return Scalr.resize(buffImage, Scalr.Method.QUALITY, imageSize);
     }
 
     private String saveImage(BufferedImage image) {

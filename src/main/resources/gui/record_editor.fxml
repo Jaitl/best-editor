@@ -111,7 +111,7 @@
                         <Insets top="5.0" />
                      </padding>
                      <children>
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Добавить изображение" onAction="#addImage" />
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Добавить изображение" onAction="#addImageAction" />
                      </children>
                   </HBox>
                </children>

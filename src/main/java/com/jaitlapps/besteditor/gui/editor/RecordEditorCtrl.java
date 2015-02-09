@@ -16,12 +16,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -62,7 +58,6 @@ public class RecordEditorCtrl extends EditorCtrl {
             if (currentMode == EditorMode.ADD) {
                 log.info("save record: " + currentRecordEntry.getTitle());
                 recordSaver.save(currentRecordEntry, currentIcon, contentTextArea.getText());
-                clearDialog();
 
                 currentRecordEntry = new RecordEntry();
             } else if (currentMode == EditorMode.EDIT) {
@@ -72,7 +67,6 @@ public class RecordEditorCtrl extends EditorCtrl {
 
             cancelDialog(event);
         }
-
     }
 
     private RecordEntry recordEntry() {
@@ -131,7 +125,7 @@ public class RecordEditorCtrl extends EditorCtrl {
     }
 
     @Override
-    public void setEntry(Entry entry) {
+    public void initEditorForEditMode(Entry entry) {
         RecordEntry recordEntry = (RecordEntry) entry;
 
         log.info("set record entry for edit:" + recordEntry.getId());
@@ -147,7 +141,7 @@ public class RecordEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + recordEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentIcon = loadIcon(Paths.get(pathToImage).toFile());
+        currentIcon = ImageEditor.loadImage(Paths.get(pathToImage).toFile());
 
         GroupEntry selectedGroupEntry = groupComboBox.getItems().stream()
                 .filter(x -> x.getId().compareTo(recordEntry.getGroupId()) == 0).findFirst().get();
@@ -162,20 +156,12 @@ public class RecordEditorCtrl extends EditorCtrl {
             isAuthorExistAction();
         }
 
-        Path pathToContent = Paths.get(preferences.getWorkFolder(), recordEntry.getPathToContent());
-        byte[] bytesContent = null;
-        try {
-            bytesContent = Files.readAllBytes(pathToContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String content = new String(bytesContent);
+        String content = RecordSaver.loadContent(recordEntry.getPathToContent());
         contentTextArea.setText(content);
 
         imageEditor.findAndLoadImages(content);
         List<String> markDownUrl = imageEditor.findMarkUrlInText(content);
-        markDownUrl.forEach(i -> setImageToTextAre(i));
+        markDownUrl.forEach(i -> setImageToTextArea(i));
     }
 
     @FXML
@@ -197,13 +183,12 @@ public class RecordEditorCtrl extends EditorCtrl {
     }
 
     @FXML
-    private void addImage() {
+    private void addImageAction() {
         String pathToImage = imageEditor.selectImage();
-        setImageToTextAre(pathToImage);
-
+        setImageToTextArea(pathToImage);
     }
 
-    private void setImageToTextAre(String pathToImage) {
+    private void setImageToTextArea(String pathToImage) {
         if(pathToImage != null) {
             String currentText = imageTextArea.getText();
             if(currentText.length() > 0) {

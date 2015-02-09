@@ -4,7 +4,6 @@ import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.saver.EntrySaver;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,11 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.util.logging.Logger;
 
-public abstract class ListCtrl<T extends Entry> extends Application {
+public abstract class ListCtrl<T extends Entry> {
 
     protected static Logger log = Logger.getLogger(GroupListCtrl.class.getName());
 
@@ -35,11 +33,6 @@ public abstract class ListCtrl<T extends Entry> extends Application {
 
     public void setSaver(EntrySaver entrySaver) {
         this.entrySaver = entrySaver;
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
     }
 
     public void loadList() {

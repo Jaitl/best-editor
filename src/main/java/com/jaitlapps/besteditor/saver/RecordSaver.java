@@ -7,7 +7,6 @@ import com.jaitlapps.besteditor.domain.RecordEntry;
 import com.jaitlapps.besteditor.manager.EntryManager;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +19,7 @@ public class RecordSaver extends EntrySaver {
     private ImageEditor imageEditor;
 
     public void save(RecordEntry recordEntry, BufferedImage icon, String content) {
-        String pathToImage = saveImage(icon, "record");
+        String pathToImage = saveIcon(icon, "record");
         recordEntry.setPathToImage(pathToImage);
         recordEntry.setId(Generator.generateRandomId());
 
@@ -36,7 +35,7 @@ public class RecordSaver extends EntrySaver {
     public void update(RecordEntry recordEntry, BufferedImage icon, String content) {
         deleteIcon(recordEntry);
 
-        String newIcon = saveImage(icon, "record");
+        String newIcon = saveIcon(icon, "record");
         recordEntry.setPathToImage(newIcon);
 
         deleteContent(recordEntry);
@@ -55,10 +54,7 @@ public class RecordSaver extends EntrySaver {
 
         String content = loadContent(recordEntry.getPathToContent());
 
-        if(imageEditor == null)
-            imageEditor = new ImageEditor();
-
-        imageEditor.deleteAllImages(content);
+        ImageEditor.deleteAllImages(content);
 
         deleteIcon(recordEntry);
         deleteContent(recordEntry);
@@ -80,7 +76,7 @@ public class RecordSaver extends EntrySaver {
             e.printStackTrace();
         }
 
-        return "content\\" + fileName;
+        return "content/" + fileName;
     }
 
     private void deleteContent(RecordEntry recordEntry) {
@@ -102,7 +98,7 @@ public class RecordSaver extends EntrySaver {
         this.imageEditor = imageEditor;
     }
 
-    public String loadContent(String path) {
+    public static String loadContent(String path) {
         Path pathToContent = Paths.get(preferences.getWorkFolder(), path);
         byte[] bytesContent = null;
         try {

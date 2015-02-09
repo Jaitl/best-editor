@@ -2,12 +2,12 @@ package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -27,7 +27,6 @@ public class GroupEditorCtrl extends EditorCtrl {
                 if(currentMode == EditorMode.ADD) {
                     log.info("save group: " + groupEntry.getTitle());
                     groupSaver.save(groupEntry, currentIcon);
-                    clearDialog();
 
                     groupEntry = new GroupEntry();
                 } else if(currentMode == EditorMode.EDIT) {
@@ -45,7 +44,7 @@ public class GroupEditorCtrl extends EditorCtrl {
     }
 
     @Override
-    public void setEntry(Entry entry) {
+    public void initEditorForEditMode(Entry entry) {
         GroupEntry gEntry = (GroupEntry) entry;
 
         log.info("set group entry for edit:" + gEntry.getId());
@@ -61,6 +60,6 @@ public class GroupEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + gEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentIcon = loadIcon(Paths.get(pathToImage).toFile());
+        currentIcon = ImageEditor.loadImage(Paths.get(pathToImage).toFile());
     }
 }

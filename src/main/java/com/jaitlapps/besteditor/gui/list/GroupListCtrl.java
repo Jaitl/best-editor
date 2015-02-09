@@ -38,7 +38,7 @@ public class GroupListCtrl extends ListCtrl<GroupEntry> {
 
         if(openForEdit) {
             groupEditorCtrl.enableEditMode();
-            groupEditorCtrl.setEntry(groupEntry);
+            groupEditorCtrl.initEditorForEditMode(groupEntry);
         } else {
             groupEditorCtrl.enableAddMode();
         }
