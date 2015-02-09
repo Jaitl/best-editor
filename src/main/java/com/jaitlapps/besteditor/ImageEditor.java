@@ -1,5 +1,6 @@
 package com.jaitlapps.besteditor;
 
+import javafx.application.Application;
 import javafx.stage.FileChooser;
 import org.imgscalr.Scalr;
 
@@ -74,7 +75,8 @@ public class ImageEditor {
         Path pathToImage = Paths.get(preferences.getWorkFolder(), "content", url);
         log.info("delete image: " + url);
         try {
-            Files.delete(pathToImage);
+            if(Files.exists(pathToImage))
+                Files.delete(pathToImage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,4 +152,7 @@ public class ImageEditor {
         return "![image" + counter + "](" + url + ")";
     }
 
+    public void clearAllImages() {
+        addedImagesList.forEach(i -> deleteImages(i));
+    }
 }

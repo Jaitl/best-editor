@@ -8,6 +8,7 @@ import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.saver.GroupSaver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Paths;

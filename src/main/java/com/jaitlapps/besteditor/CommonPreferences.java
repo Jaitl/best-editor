@@ -1,5 +1,7 @@
 package com.jaitlapps.besteditor;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 public class CommonPreferences {

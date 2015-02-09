@@ -5,10 +5,12 @@ import com.jaitlapps.besteditor.domain.RecordEntry;
 import com.jaitlapps.besteditor.gui.editor.RecordEditorCtrl;
 import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.saver.RecordSaver;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -51,10 +53,13 @@ public class RecordListCtrl extends ListCtrl<RecordEntry> {
         stage.setMinWidth(800);
         stage.setMinHeight(600);
 
+        recordEditorCtrl.setStage(stage);
+
         scene.getStylesheets().add("gui/style.css");
 
         stage.setScene(scene);
         stage.showAndWait();
+        stage.close();
 
         updateList();
     }

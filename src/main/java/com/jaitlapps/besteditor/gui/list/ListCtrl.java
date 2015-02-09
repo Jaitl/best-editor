@@ -4,6 +4,7 @@ import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.saver.EntrySaver;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
