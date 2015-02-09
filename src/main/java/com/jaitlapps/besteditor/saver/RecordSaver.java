@@ -1,6 +1,7 @@
 package com.jaitlapps.besteditor.saver;
 
 import com.jaitlapps.besteditor.Generator;
+import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
 import com.jaitlapps.besteditor.manager.EntryManager;
@@ -16,6 +17,7 @@ import java.nio.file.StandardOpenOption;
 public class RecordSaver extends EntrySaver {
 
     private EntryManager<RecordEntry> recordManager = EntryManager.createRecordManager();
+    private ImageEditor imageEditor;
 
     public void save(RecordEntry recordEntry, BufferedImage icon, String content) {
         String pathToImage = saveImage(icon, "record");
@@ -24,6 +26,8 @@ public class RecordSaver extends EntrySaver {
 
         String pathToContent = saveContent(content);
         recordEntry.setPathToContent(pathToContent);
+
+        imageEditor.deleteNoUsingImages(content);
 
         recordManager.add(recordEntry);
         recordManager.saveToFile();
@@ -39,6 +43,8 @@ public class RecordSaver extends EntrySaver {
         String pathToContent = saveContent(content);
         recordEntry.setPathToContent(pathToContent);
 
+        imageEditor.deleteNoUsingImages(content);
+
         recordManager.update(recordEntry);
         recordManager.saveToFile();
     }
@@ -46,6 +52,13 @@ public class RecordSaver extends EntrySaver {
     @Override
     public void delete(Entry entry) {
         RecordEntry recordEntry = (RecordEntry) entry;
+
+        String content = loadContent(recordEntry.getPathToContent());
+
+        if(imageEditor == null)
+            imageEditor = new ImageEditor();
+
+        imageEditor.deleteAllImages(content);
 
         deleteIcon(recordEntry);
         deleteContent(recordEntry);
@@ -79,5 +92,25 @@ public class RecordSaver extends EntrySaver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ImageEditor getImageEditor() {
+        return imageEditor;
+    }
+
+    public void setImageEditor(ImageEditor imageEditor) {
+        this.imageEditor = imageEditor;
+    }
+
+    public String loadContent(String path) {
+        Path pathToContent = Paths.get(preferences.getWorkFolder(), path);
+        byte[] bytesContent = null;
+        try {
+            bytesContent = Files.readAllBytes(pathToContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new String(bytesContent);
     }
 }

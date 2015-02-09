@@ -2,6 +2,7 @@ package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
@@ -15,12 +16,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class RecordEditorCtrl extends EditorCtrl {
 
@@ -34,6 +37,10 @@ public class RecordEditorCtrl extends EditorCtrl {
     private ComboBox<GroupEntry> groupComboBox;
     @FXML
     private TextArea contentTextArea;
+    @FXML
+    private TextArea imageTextArea;
+
+    private ImageEditor imageEditor = new ImageEditor();
 
     private RecordEntry currentRecordEntry = new RecordEntry();
 
@@ -50,6 +57,7 @@ public class RecordEditorCtrl extends EditorCtrl {
         if(recordEntry() != null) {
 
             RecordSaver recordSaver = new RecordSaver();
+            recordSaver.setImageEditor(imageEditor);
 
             if (currentMode == EditorMode.ADD) {
                 log.info("save record: " + currentRecordEntry.getTitle());
@@ -164,6 +172,10 @@ public class RecordEditorCtrl extends EditorCtrl {
 
         String content = new String(bytesContent);
         contentTextArea.setText(content);
+
+        imageEditor.findAndLoadImages(content);
+        List<String> markDownUrl = imageEditor.findMarkUrlInText(content);
+        markDownUrl.forEach(i -> setImageToTextAre(i));
     }
 
     @FXML
@@ -181,6 +193,25 @@ public class RecordEditorCtrl extends EditorCtrl {
 
             authorUrlField.setEditable(true);
             authorUrlField.setVisible(true);
+        }
+    }
+
+    @FXML
+    private void addImage() {
+        String pathToImage = imageEditor.selectImage();
+        setImageToTextAre(pathToImage);
+
+    }
+
+    private void setImageToTextAre(String pathToImage) {
+        if(pathToImage != null) {
+            String currentText = imageTextArea.getText();
+            if(currentText.length() > 0) {
+                currentText += "\n" + pathToImage;
+                imageTextArea.setText(currentText);
+            } else {
+                imageTextArea.setText(pathToImage);
+            }
         }
     }
 }

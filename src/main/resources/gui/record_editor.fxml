@@ -101,7 +101,7 @@
                </VBox.margin>
                <children>
                   <Label text="Ссылки на изображения для статьи:" />
-                  <TextArea editable="false" prefHeight="50.0">
+                  <TextArea editable="false" prefHeight="50.0" fx:id="imageTextArea">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -111,7 +111,7 @@
                         <Insets top="5.0" />
                      </padding>
                      <children>
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Добавить изображение" />
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Добавить изображение" onAction="#addImage" />
                      </children>
                   </HBox>
                </children>
