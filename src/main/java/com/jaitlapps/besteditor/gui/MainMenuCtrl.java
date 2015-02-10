@@ -1,6 +1,7 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.ZipFolder;
 import com.jaitlapps.besteditor.gui.list.GroupListCtrl;
 import com.jaitlapps.besteditor.gui.list.RecordListCtrl;
 import javafx.application.Application;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -70,7 +72,34 @@ public class MainMenuCtrl extends Application {
     }
 
     @FXML
+    private void createZipArchiveAction() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("ZIP", "*.zip")
+        );
+
+        fileChooser.setInitialFileName("BestAdvice-content.zip");
+
+        fileChooser.setTitle("Выребире куда сохранить даннные");
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if(file != null) {
+            try {
+                ZipFolder.zipDir(commonPreferences.getWorkFolder(), file.getPath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
     private void groupEditor() throws IOException {
+        if(isWorkFolderNotConsist()) {
+            selectWorkFolder();
+            return;
+        }
+
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -92,6 +121,11 @@ public class MainMenuCtrl extends Application {
 
     @FXML
     private void recordEditor() throws IOException {
+        if(isWorkFolderNotConsist()) {
+            selectWorkFolder();
+            return;
+        }
+
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -171,5 +205,12 @@ public class MainMenuCtrl extends Application {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean isWorkFolderNotConsist() {
+        if(commonPreferences.getWorkFolder() != null)
+            return false;
+        else
+            return true;
     }
 }

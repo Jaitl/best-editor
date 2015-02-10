@@ -33,7 +33,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Выгрузить данные">
+            <Button mnemonicParsing="false" text="Выгрузить данные" onAction="#createZipArchiveAction">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
