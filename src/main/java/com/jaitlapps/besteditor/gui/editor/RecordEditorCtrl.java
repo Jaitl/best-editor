@@ -51,7 +51,8 @@ public class RecordEditorCtrl extends EditorCtrl {
 
 
     public void setStage(Stage primaryStage) {
-        primaryStage.setOnHiding(we -> imageEditor.deleteNoUsingImages(contentTextArea.getText()));
+        if(currentMode == EditorMode.ADD)
+            primaryStage.setOnHiding(we -> imageEditor.deleteNoUsingImages(contentTextArea.getText()));
     }
 
     public void loadGroups() {

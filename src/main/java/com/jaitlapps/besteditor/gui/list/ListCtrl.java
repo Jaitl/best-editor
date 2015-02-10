@@ -76,7 +76,11 @@ public abstract class ListCtrl<T extends Entry> {
         T item = listView.getFocusModel().getFocusedItem();
 
         if(item != null) {
-            entrySaver.delete(item);
+            try {
+                entrySaver.delete(item);
+            } catch (Exception e) {
+                AlertInfo.showAlert("Ошибка при удалении", e.getMessage());
+            }
             updateList();
         } else {
             AlertInfo.showAlert("Запись для удаления не выбрана", "Запись для удаления не выбрана. Выберите запись для удаления.");

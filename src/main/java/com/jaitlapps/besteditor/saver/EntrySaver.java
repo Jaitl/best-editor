@@ -47,5 +47,5 @@ public abstract class EntrySaver {
         }
     }
 
-    public abstract void delete(Entry entry);
+    public abstract void delete(Entry entry) throws Exception;
 }
