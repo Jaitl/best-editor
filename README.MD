@@ -16,5 +16,5 @@
 ##Сборка приложения:
 1. Установить [launch4j](http://launch4j.sourceforge.net/)
 2. Добавить путь до установленного launch4j в **PATH**
-3. В папке с проектом запустить `build launch4j`
+3. В папке с проектом запустить `gradle launch4j`
 4. Забрать exe файл из `%project%\build\launch4j`
