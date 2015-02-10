@@ -8,6 +8,7 @@ import com.jaitlapps.besteditor.manager.EntryManager;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -107,6 +108,14 @@ public class RecordSaver extends EntrySaver {
             e.printStackTrace();
         }
 
-        return new String(bytesContent);
+
+        String result = null;
+        try {
+            result = new String(bytesContent, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

@@ -17,7 +17,7 @@ public class GroupManager extends EntryManager<GroupEntry> {
         if(Files.exists(pathToEntryData)) {
             try {
                 byte[] jsonDataBytes = Files.readAllBytes(pathToEntryData);
-                String jsonData = new String(jsonDataBytes);
+                String jsonData = new String(jsonDataBytes, "UTF-8");
                 if(jsonData.length() > 0) {
                     listEntry = gson.fromJson(jsonData, GroupListEntry.class);
                     log.info("load groups from file");
