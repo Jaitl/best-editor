@@ -152,6 +152,7 @@ public class MainMenuCtrl extends Application {
 
         stage.setScene(scene);
         recordListCtrl.loadList();
+        recordListCtrl.loadGroups();
         stage.show();
     }
 
