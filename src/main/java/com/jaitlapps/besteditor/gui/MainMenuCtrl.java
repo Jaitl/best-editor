@@ -17,8 +17,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.logging.Logger;
 
 public class MainMenuCtrl extends Application {
@@ -205,6 +208,39 @@ public class MainMenuCtrl extends Application {
                 e.printStackTrace();
             }
         }
+
+        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "content", "css", "common_style.css")))
+            copyCSSFromResources();
+    }
+
+    private void copyCSSFromResources() {
+        Path pathToCSSFolder = Paths.get(commonPreferences.getWorkFolder(), "content", "css");
+
+        if(Files.notExists(pathToCSSFolder)) {
+            try {
+                Files.createDirectory(pathToCSSFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("css/common_style.css");
+
+        byte[] buffer = new byte[0];
+
+        try {
+            buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Files.write(pathToCSSFolder.resolve("common_style.css"), buffer, StandardOpenOption.CREATE_NEW);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private boolean isWorkFolderNotConsist() {

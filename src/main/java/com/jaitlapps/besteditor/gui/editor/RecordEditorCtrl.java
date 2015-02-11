@@ -230,11 +230,9 @@ public class RecordEditorCtrl extends EditorCtrl {
 
         ContentPreviewCtrl contentPreviewCtrl = loader.getController();
 
+        RecordEntry record = recordEntry();
+        contentPreviewCtrl.setRecordEntry(record);
         contentPreviewCtrl.setContent(contentTextArea.getText());
-        contentPreviewCtrl.setTitle(titleField.getText());
-
-        if(!isAuthorCheckBox.isSelected())
-            contentPreviewCtrl.setAuthor(authorNameField.getText(), authorUrlField.getText());
 
         contentPreviewCtrl.buildPreview();
 

@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public abstract class EntrySaver {
-    public final static int IMAGE_HEIGHT = 350;
+    public final static int IMAGE_HEIGHT = 250;
 
     protected static Logger log = Logger.getLogger(EntryManager.class.getName());
     protected static CommonPreferences preferences = CommonPreferences.getInstance();

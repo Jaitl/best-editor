@@ -1,24 +1,28 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.ContentRender;
+import com.jaitlapps.besteditor.domain.RecordEntry;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.pegdown.PegDownProcessor;
+import javafx.util.Callback;
 
-import java.io.File;
+import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
 public class ContentPreviewCtrl {
 
-    protected static CommonPreferences preferences = CommonPreferences.getInstance();
+    private static Logger log = Logger.getLogger(MainMenuCtrl.class.getName());
 
     @FXML
     private WebView previewWebView;
@@ -28,95 +32,56 @@ public class ContentPreviewCtrl {
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 
+    private RecordEntry recordEntry;
+
     private String content;
-    private String authorName;
-    private String authorUrl;
-    private String title;
+
+    public void setRecordEntry(RecordEntry recordEntry) {
+        this.recordEntry = recordEntry;
+    }
 
     public void setContent(String content) {
         this.content = content;
     }
 
-    public void setAuthor(String authorName, String authorUrl) {
-        this.authorName = authorName;
-        this.authorUrl = authorUrl;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public void buildPreview() {
-        String pathToImageFolder = "](file:///" + preferences.getWorkFolder() + "/content/images";
-        String contentWithImage = null;
-
-        if(content != null && content.length() > 0)
-            contentWithImage = content.replace("](/images", pathToImageFolder).replace("\\", "/");
-
-        String titleH1 = null;
-
-        if(title != null && title.length() > 0) {
-            titleH1 = "#" + title;
-        }
-
-        String authorLink = null;
-
-        if(authorName != null && authorName.length() > 0 &&  authorUrl != null && authorUrl.length() > 0) {
-            authorLink = "**Автор:** [" + authorName + "](" + authorUrl + ")";
-        }
-
-        String resultMarkDown = "";
-
-        if(titleH1 != null)
-            resultMarkDown += titleH1 + "\n\n";
-
-        if(authorLink != null)
-            resultMarkDown += authorLink + "\n\n";
-
-        if(contentWithImage != null)
-            resultMarkDown += contentWithImage;
-
-        PegDownProcessor pegDownProcessor = new PegDownProcessor();
-        String html = pegDownProcessor.markdownToHtml(resultMarkDown);
-
+        openUrlInExternalBrowser();
         WebEngine webEngine = previewWebView.getEngine();
 
-        Path pathToCSS = Paths.get(preferences.getWorkFolder(), "content", "css", "common_style.css");
+        ContentRender contentRender = new ContentRender();
+        String html = contentRender.render(recordEntry, content);
 
-        if(Files.notExists(pathToCSS))
-            copyCSSFromResources();
-
-        webEngine.setUserStyleSheetLocation("file:///" + pathToCSS);
         webEngine.loadContent(html);
     }
 
-    private void copyCSSFromResources() {
-        Path pathToCSSFolder = Paths.get(preferences.getWorkFolder(), "content", "css");
+    private void openUrlInExternalBrowser() {
+        previewWebView.getEngine().setCreatePopupHandler(
+                config -> {
+                    // grab the last hyperlink that has :hover pseudoclass
+                    Object o = previewWebView
+                            .getEngine()
+                            .executeScript(
+                                    "var list = document.querySelectorAll( ':hover' );"
+                                            + "for (i=list.length-1; i>-1; i--) "
+                                            + "{ if ( list.item(i).getAttribute('href') ) "
+                                            + "{ list.item(i).getAttribute('href'); break; } }");
 
-        if(Files.notExists(pathToCSSFolder)) {
-            try {
-                Files.createDirectory(pathToCSSFolder);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+                    // open in native browser
+                    try {
+                        if (o != null) {
+                            Desktop.getDesktop().browse(
+                                    new URI(o.toString()));
+                        } else {
+                            //log.error("No result from uri detector: " + o);
+                        }
+                    } catch (IOException e) {
+                        //log.error("Unexpected error obtaining uri: " + o, e);
+                    } catch (URISyntaxException e) {
+                        //log.error("Could not interpret uri: " + o, e);
+                    }
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("css/common_style.css");
-
-        byte[] buffer = new byte[0];
-
-        try {
-            buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Files.write(pathToCSSFolder.resolve("common_style.css"), buffer, StandardOpenOption.CREATE_NEW);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+                    // prevent from opening in webView
+                    return null;
+                });
     }
 }
