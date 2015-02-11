@@ -4,7 +4,6 @@ import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.saver.EntrySaver;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,12 +11,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.logging.Logger;
 
 public abstract class ListCtrl<T extends Entry> {
 
-    protected static Logger log = Logger.getLogger(GroupListCtrl.class.getName());
+    protected static Logger log = LoggerFactory.getLogger(ListCtrl.class);
 
     @FXML
     protected ListView<T> listView;
@@ -79,6 +79,7 @@ public abstract class ListCtrl<T extends Entry> {
             try {
                 entrySaver.delete(item);
             } catch (Exception e) {
+                log.error("delete error", e);
                 AlertInfo.showAlert("Ошибка при удалении", e.getMessage());
             }
             updateList();

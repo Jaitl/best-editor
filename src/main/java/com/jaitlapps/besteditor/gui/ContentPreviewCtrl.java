@@ -1,28 +1,23 @@
 package com.jaitlapps.besteditor.gui;
 
-import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.ContentRender;
 import com.jaitlapps.besteditor.domain.RecordEntry;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Logger;
 
 public class ContentPreviewCtrl {
 
-    private static Logger log = Logger.getLogger(MainMenuCtrl.class.getName());
+    private static Logger log = LoggerFactory.getLogger(ContentPreviewCtrl.class);
 
     @FXML
     private WebView previewWebView;
@@ -72,12 +67,12 @@ public class ContentPreviewCtrl {
                             Desktop.getDesktop().browse(
                                     new URI(o.toString()));
                         } else {
-                            //log.error("No result from uri detector: " + o);
+                            log.error("No result from uri detector: " + o);
                         }
                     } catch (IOException e) {
-                        //log.error("Unexpected error obtaining uri: " + o, e);
+                        log.error("Unexpected error obtaining uri: " + o, e);
                     } catch (URISyntaxException e) {
-                        //log.error("Could not interpret uri: " + o, e);
+                        log.error("Could not interpret uri: " + o, e);
                     }
 
                     // prevent from opening in webView

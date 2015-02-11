@@ -74,7 +74,7 @@ public class RecordSaver extends EntrySaver {
             Files.deleteIfExists(pathToContent);
             Files.write(pathToContent, content.getBytes("UTF-8"), StandardOpenOption.CREATE_NEW);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("save content error", e);
         }
 
         return "content/" + fileName;
@@ -87,7 +87,7 @@ public class RecordSaver extends EntrySaver {
             log.info("delete content: " + recordEntry.getPathToContent());
             Files.delete(pathToContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("delete content error", e);
         }
     }
 
@@ -105,7 +105,7 @@ public class RecordSaver extends EntrySaver {
         try {
             bytesContent = Files.readAllBytes(pathToContent);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("load content error", e);
         }
 
 
@@ -113,7 +113,7 @@ public class RecordSaver extends EntrySaver {
         try {
             result = new String(bytesContent, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.error("byte error", e);
         }
 
         return result;

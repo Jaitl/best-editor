@@ -6,6 +6,7 @@ import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
 import com.jaitlapps.besteditor.domain.list.ListEntry;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,13 +16,13 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public abstract class EntryManager<T extends Entry> {
 
     private static Map<String, Object> entryMap = new HashMap<>();
 
-    protected static Logger log = Logger.getLogger(EntryManager.class.getName());
+    protected static org.slf4j.Logger log = LoggerFactory.getLogger(EntryManager.class);
+
     protected ListEntry<T> listEntry;
     protected Gson gson = new Gson();
 
@@ -78,7 +79,7 @@ public abstract class EntryManager<T extends Entry> {
             Files.write(pathToEntryData, jsonData.getBytes("UTF-8"), StandardOpenOption.CREATE_NEW);
             log.info("save entries to file");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("save error", e);
         }
     }
 

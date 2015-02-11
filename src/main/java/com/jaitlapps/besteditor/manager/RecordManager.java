@@ -25,7 +25,7 @@ public class RecordManager extends EntryManager<RecordEntry> {
                     log.info("create new records list");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("load error", e);
             }
         } else {
             listEntry = new RecordListEntry();

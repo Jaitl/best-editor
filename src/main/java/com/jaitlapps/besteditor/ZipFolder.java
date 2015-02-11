@@ -1,8 +1,10 @@
 package com.jaitlapps.besteditor;
 
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipFolder {
 
-    private static Logger log = Logger.getLogger(ZipFolder.class.getName());
+    private static org.slf4j.Logger log = LoggerFactory.getLogger(ZipFolder.class);
 
     private static List<String> fileList = new ArrayList<>();
 
@@ -27,17 +29,13 @@ public class ZipFolder {
             for (String filePath : fileList) {
                 log.info("Compressing: " + filePath);
 
-                //
                 // Creates a zip entry.
-                //
                 String name = filePath.substring(directory.getAbsolutePath().length() + 1,
                         filePath.length());
                 ZipEntry zipEntry = new ZipEntry(name);
                 zos.putNextEntry(zipEntry);
 
-                //
                 // Read file content and write to zip output stream.
-                //
                 FileInputStream fis = new FileInputStream(filePath);
                 byte[] buffer = new byte[1024];
                 int length;
@@ -45,21 +43,17 @@ public class ZipFolder {
                     zos.write(buffer, 0, length);
                 }
 
-                //
                 // Close the zip entry and the file input stream.
-                //
                 zos.closeEntry();
                 fis.close();
             }
 
-            //
             // Close zip output stream and file output stream. This will
             // complete the compression process.
-            //
             zos.close();
             fos.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
     }
 

@@ -6,6 +6,7 @@ import com.jaitlapps.besteditor.Generator;
 import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,12 +14,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 public abstract class EntrySaver {
     public final static int IMAGE_HEIGHT = 250;
 
-    protected static Logger log = Logger.getLogger(EntryManager.class.getName());
+    protected static org.slf4j.Logger log = LoggerFactory.getLogger(EntryManager.class);
+
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
 
     protected String saveIcon(BufferedImage originalImage, String folder) {
@@ -31,7 +32,7 @@ public abstract class EntrySaver {
             ImageIO.write(resizeImage, "png", pathToImage.toFile());
             log.info("save icon to file: " + Paths.get("icon", folder, imageName + ".png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("icon save error", e);
         }
 
         return "icon/" + folder + "/" + imageName + ".png";
@@ -43,7 +44,7 @@ public abstract class EntrySaver {
             log.info("delete icon: " + entry.getPathToImage());
             Files.delete(pathToIcon);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("icon delete error", e);
         }
     }
 

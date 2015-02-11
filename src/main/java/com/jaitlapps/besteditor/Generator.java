@@ -1,15 +1,16 @@
 package com.jaitlapps.besteditor;
 
+import org.slf4j.LoggerFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.logging.Logger;
 
 public class Generator {
 
-    private static Logger log = Logger.getLogger(Generator.class.getName());
+    private static org.slf4j.Logger log = LoggerFactory.getLogger(Generator.class);
 
     public static String generateRandomId() {
         byte[] dateBytes = null;
@@ -18,6 +19,7 @@ public class Generator {
             dateBytes = new Date().toString().getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            log.error("error", e);
         }
 
         byte[] randomBytes = null;
@@ -25,7 +27,7 @@ public class Generator {
         try {
             randomBytes = Double.toHexString(Math.random()).getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
 
         byte[] finalBytes = concat(dateBytes, randomBytes);
@@ -35,7 +37,7 @@ public class Generator {
         try {
             messageDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
 
         byte[] randomId = messageDigest.digest(finalBytes);
@@ -48,8 +50,10 @@ public class Generator {
 
     private static String byteArrayToHex(byte[] a) {
         StringBuilder sb = new StringBuilder(a.length * 2);
+
         for(byte b: a)
             sb.append(String.format("%02x", b & 0xff));
+
         return sb.toString();
     }
 

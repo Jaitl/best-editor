@@ -26,7 +26,7 @@ public class GroupManager extends EntryManager<GroupEntry> {
                     log.info("create new groups list");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("load error", e);
             }
         } else {
             listEntry = new GroupListEntry();

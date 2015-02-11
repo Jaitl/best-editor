@@ -31,7 +31,7 @@ public class GroupListCtrl extends ListCtrl<GroupEntry> {
         try {
             root = loader.load(getClass().getClassLoader().getResourceAsStream("gui/group_editor.fxml"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
 
         GroupEditorCtrl groupEditorCtrl = loader.getController();

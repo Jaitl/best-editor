@@ -4,7 +4,6 @@ import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.saver.EntrySaver;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,10 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.logging.Logger;
 
 public abstract class EditorCtrl {
 
@@ -24,7 +24,7 @@ public abstract class EditorCtrl {
         EDIT;
     }
 
-    protected static Logger log = Logger.getLogger(EditorCtrl.class.getName());
+    protected static Logger log = LoggerFactory.getLogger(EditorCtrl.class);
 
     protected BufferedImage currentIcon;
 

@@ -1,8 +1,8 @@
 package com.jaitlapps.besteditor;
 
-import javafx.application.Application;
 import javafx.stage.FileChooser;
 import org.imgscalr.Scalr;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,8 @@ public class ImageEditor {
     public final static int IMAGE_SIZE = 1024;
 
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
-    protected static Logger log = Logger.getLogger(ImageEditor.class.getName());
+
+    private static org.slf4j.Logger log = LoggerFactory.getLogger(ImageEditor.class);
 
     public String selectImage() {
         FileChooser fileChooser = new FileChooser();
@@ -78,7 +79,7 @@ public class ImageEditor {
             if(Files.exists(pathToImage))
                 Files.delete(pathToImage);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("delete image error", e);
         }
     }
 
@@ -141,7 +142,7 @@ public class ImageEditor {
             ImageIO.write(image, "jpg", pathToImage.toFile());
             log.info("save image to file: " + Paths.get("content", "images", imageName + ".jpg"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("save image error", e);
         }
 
         return "/images" + "/" + imageName + ".jpg";

@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +24,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.logging.Logger;
 
 public class MainMenuCtrl extends Application {
 
     Stage primaryStage;
 
-    private static Logger log = Logger.getLogger(MainMenuCtrl.class.getName());
+    private static Logger log = LoggerFactory.getLogger(ContentPreviewCtrl.class);
 
     private static CommonPreferences commonPreferences = CommonPreferences.getInstance();
 
@@ -91,7 +92,7 @@ public class MainMenuCtrl extends Application {
             try {
                 ZipFolder.zipDir(commonPreferences.getWorkFolder(), file.getPath());
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("zip folder error", e);
             }
         }
     }
@@ -160,7 +161,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "data"));
                 log.info("create directory: \\data");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -169,7 +170,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon"));
                 log.info("create directory: \\icon");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -178,7 +179,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon", "group"));
                 log.info("create directory: \\icon\\group");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -187,7 +188,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon", "record"));
                 log.info("create directory: \\icon\\record");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -196,7 +197,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "content"));
                 log.info("create directory: \\content");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -205,7 +206,7 @@ public class MainMenuCtrl extends Application {
                 Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "content", "images"));
                 log.info("create directory: \\content\\images");
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -220,7 +221,7 @@ public class MainMenuCtrl extends Application {
             try {
                 Files.createDirectory(pathToCSSFolder);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("error", e);
             }
         }
 
@@ -232,13 +233,13 @@ public class MainMenuCtrl extends Application {
             buffer = new byte[inputStream.available()];
             inputStream.read(buffer);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
 
         try {
             Files.write(pathToCSSFolder.resolve("common_style.css"), buffer, StandardOpenOption.CREATE_NEW);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("error", e);
         }
 
     }
