@@ -78,8 +78,7 @@ public class MainMenuCtrl extends Application {
 
     @FXML
     private void selectMarkdownEditorAction() {
-        if(preferences.getMarkdownEditor() == null)
-            MarkdownEditorWrapper.selectPathToMarkdownPad(primaryStage);
+        MarkdownEditorWrapper.selectPathToMarkdownPad(primaryStage);
     }
 
     @FXML

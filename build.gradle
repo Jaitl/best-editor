@@ -44,6 +44,6 @@ launch4j {
     fatJar.execute()
     mainClassName = "com.jaitlapps.besteditor.gui.MainMenuCtrl"
     icon = project.projectDir.absolutePath + '\\BestEditor.ico'
-    println 'libs\\' + project.name + '-all-' + project.version + '.jar'
     jar = project.projectDir.absolutePath + '\\build\\libs\\' + project.name + '-all-' + project.version + '.jar'
+    outfile = 'BestAdvice Editor.exe'
 }

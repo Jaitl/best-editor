@@ -156,7 +156,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Открыть статью в MarkdownPad 2" onAction="#openMarkdownEditorAction">
+                  <Button mnemonicParsing="false" text="Открыть статью в Markdown редакторе" onAction="#openMarkdownEditorAction">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
