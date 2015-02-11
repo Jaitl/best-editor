@@ -95,7 +95,8 @@ public class MainMenuCtrl extends Application {
         if(file != null) {
             preferences.putArchiveImageFolder(file.getParent());
             try {
-                ZipFolder.zipDir(preferences.getWorkFolder(), file.getPath());
+                ZipFolder zipFolder = new ZipFolder();
+                zipFolder.zipDir(file.getPath());
             } catch (Exception e) {
                 log.error("zip folder error", e);
             }
