@@ -5,13 +5,16 @@ import java.util.prefs.Preferences;
 public class CommonPreferences {
     private Preferences preferences;
 
+    public static final String WORK_FOLDER = "work_folder";
+    public static final String RESENT_ICON_FOLDER = "resent_icon_folder";
+    public static final String RESENT_IMAGE_FOLDER = "resent_image_folder";
+    public static final String RESENT_ARCHIVE_FOLDER = "resent_archive_folder";
+
     private static final CommonPreferences INSTANCE = new CommonPreferences();
 
     public static CommonPreferences getInstance() {
         return INSTANCE;
     }
-
-    public static final String WORK_FOLDER = "work_folder";
 
     private CommonPreferences() {
         preferences = Preferences.userNodeForPackage(Preferences.class);
@@ -23,5 +26,29 @@ public class CommonPreferences {
 
     public String getWorkFolder() {
         return preferences.get(WORK_FOLDER, null);
+    }
+
+    public void putRecentIconFolder(String url) {
+        preferences.put(RESENT_ICON_FOLDER, url);
+    }
+
+    public String getRecentIconFolder() {
+        return preferences.get(RESENT_ICON_FOLDER, null);
+    }
+
+    public void putRecentImageFolder(String url) {
+        preferences.put(RESENT_IMAGE_FOLDER, url);
+    }
+
+    public String getRecentImageFolder() {
+        return preferences.get(RESENT_IMAGE_FOLDER, null);
+    }
+
+    public void putArchiveImageFolder(String url) {
+        preferences.put(RESENT_ARCHIVE_FOLDER, url);
+    }
+
+    public String getArchiveImageFolder() {
+        return preferences.get(RESENT_ARCHIVE_FOLDER, null);
     }
 }

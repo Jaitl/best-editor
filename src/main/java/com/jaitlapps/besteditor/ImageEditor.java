@@ -34,12 +34,17 @@ public class ImageEditor {
 
         fileChooser.setTitle("Выбор картинки");
 
+        if(preferences.getRecentImageFolder() != null)
+            fileChooser.setInitialDirectory(Paths.get(preferences.getRecentImageFolder()).toFile());
+
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
         );
 
         File selectedImage = fileChooser.showOpenDialog(null);
         if(selectedImage != null) {
+            preferences.putRecentImageFolder(selectedImage.getParent());
+
             log.info("selected image: " + selectedImage.getPath());
             BufferedImage image = loadImage(selectedImage);
 

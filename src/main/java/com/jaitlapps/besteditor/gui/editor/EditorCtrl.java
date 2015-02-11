@@ -1,6 +1,7 @@
 package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
+import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.saver.EntrySaver;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.nio.file.Paths;
 
 public abstract class EditorCtrl {
 
@@ -51,9 +53,16 @@ public abstract class EditorCtrl {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
+        CommonPreferences preferences = CommonPreferences.getInstance();
+
+        if(preferences.getRecentIconFolder() != null)
+            fileChooser.setInitialDirectory(Paths.get(preferences.getRecentIconFolder()).toFile());
+
         File selectedImage = fileChooser.showOpenDialog(null);
         log.info("selected icon:" + selectedImage);
         if (selectedImage != null) {
+            preferences.putRecentIconFolder(selectedImage.getParent());
+
             BufferedImage icon = ImageEditor.loadImage(selectedImage);
 
             if(validateIconSize(icon)) {

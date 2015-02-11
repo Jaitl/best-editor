@@ -31,7 +31,7 @@ public class MainMenuCtrl extends Application {
 
     private static Logger log = LoggerFactory.getLogger(ContentPreviewCtrl.class);
 
-    private static CommonPreferences commonPreferences = CommonPreferences.getInstance();
+    private static CommonPreferences preferences = CommonPreferences.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -59,7 +59,7 @@ public class MainMenuCtrl extends Application {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Выбор рабочей папки");
 
-        String workFolder = commonPreferences.getWorkFolder();
+        String workFolder = preferences.getWorkFolder();
 
         if(workFolder != null && Files.exists(Paths.get(workFolder)))
             directoryChooser.setInitialDirectory(new File(workFolder));
@@ -70,7 +70,7 @@ public class MainMenuCtrl extends Application {
         log.info("selected work directory: " + selectedDirectory);
 
         if(selectedDirectory != null) {
-            commonPreferences.putWorkFolder(selectedDirectory.getPath());
+            preferences.putWorkFolder(selectedDirectory.getPath());
             createStructureDirectories();
         }
     }
@@ -85,12 +85,17 @@ public class MainMenuCtrl extends Application {
 
         fileChooser.setInitialFileName("BestAdvice-content.zip");
 
+        if(preferences.getArchiveImageFolder() != null) {
+            fileChooser.setInitialDirectory(Paths.get(preferences.getArchiveImageFolder()).toFile());
+        }
+
         fileChooser.setTitle("Выребире куда сохранить даннные");
         File file = fileChooser.showSaveDialog(primaryStage);
 
         if(file != null) {
+            preferences.putArchiveImageFolder(file.getParent());
             try {
-                ZipFolder.zipDir(commonPreferences.getWorkFolder(), file.getPath());
+                ZipFolder.zipDir(preferences.getWorkFolder(), file.getPath());
             } catch (Exception e) {
                 log.error("zip folder error", e);
             }
@@ -156,66 +161,66 @@ public class MainMenuCtrl extends Application {
 
     private void createStructureDirectories() {
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "data"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "data"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "data"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "data"));
                 log.info("create directory: \\data");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "icon"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "icon"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "icon"));
                 log.info("create directory: \\icon");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "icon", "group"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "icon", "group"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon", "group"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "icon", "group"));
                 log.info("create directory: \\icon\\group");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "icon", "record"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "icon", "record"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "icon", "record"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "icon", "record"));
                 log.info("create directory: \\icon\\record");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "content"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "content"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "content"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "content"));
                 log.info("create directory: \\content");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "content", "images"))) {
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "content", "images"))) {
             try {
-                Files.createDirectory(Paths.get(commonPreferences.getWorkFolder(), "content", "images"));
+                Files.createDirectory(Paths.get(preferences.getWorkFolder(), "content", "images"));
                 log.info("create directory: \\content\\images");
             } catch (IOException e) {
                 log.error("error", e);
             }
         }
 
-        if(Files.notExists(Paths.get(commonPreferences.getWorkFolder(), "content", "css", "common_style.css")))
+        if(Files.notExists(Paths.get(preferences.getWorkFolder(), "content", "css", "common_style.css")))
             copyCSSFromResources();
     }
 
     private void copyCSSFromResources() {
-        Path pathToCSSFolder = Paths.get(commonPreferences.getWorkFolder(), "content", "css");
+        Path pathToCSSFolder = Paths.get(preferences.getWorkFolder(), "content", "css");
 
         if(Files.notExists(pathToCSSFolder)) {
             try {
@@ -245,7 +250,7 @@ public class MainMenuCtrl extends Application {
     }
 
     private boolean isWorkFolderNotConsist() {
-        if(commonPreferences.getWorkFolder() != null)
+        if(preferences.getWorkFolder() != null)
             return false;
         else
             return true;
