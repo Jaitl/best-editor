@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -21,7 +20,8 @@ import java.util.stream.Collectors;
 public class ImageEditor {
     private int counter;
 
-    private List<String> addedImagesList = new ArrayList<>();
+    private List<String> newImagesList = new ArrayList<>();
+    private List<String> oldImagesList = new ArrayList<>();
 
     public final static int IMAGE_SIZE = 1024;
 
@@ -53,7 +53,7 @@ public class ImageEditor {
             }
 
             String pathToImage = saveImage(image);
-            addedImagesList.add(pathToImage);
+            newImagesList.add(pathToImage);
 
             return urlToMarkDownImageLink(pathToImage);
         }
@@ -63,9 +63,15 @@ public class ImageEditor {
 
     public void deleteNoUsingImages(String text) {
         List<String> findImages = findImagesInText(text);
-        addedImagesList.removeAll(findImages);
+        newImagesList.removeAll(findImages);
+        newImagesList.forEach(i -> deleteImages(i));
 
-        addedImagesList.forEach(i -> deleteImages(i));
+        oldImagesList.removeAll(findImages);
+        oldImagesList.forEach(i -> deleteImages(i));
+    }
+
+    public void deleteNewImages() {
+        newImagesList.forEach(i -> deleteImages(i));
     }
 
     public static void deleteAllImages(String text) {
@@ -74,7 +80,7 @@ public class ImageEditor {
     }
 
     public void findAndLoadImages(String text) {
-        addedImagesList.addAll(findImagesInText(text));
+        oldImagesList.addAll(findImagesInText(text));
     }
 
     private static void deleteImages(String url) {
@@ -116,11 +122,20 @@ public class ImageEditor {
 
         try {
             buffImage = ImageIO.read(image);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return buffImage;
+        BufferedImage newImage = new BufferedImage(buffImage.getWidth(), buffImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+
+        for (int x = 0; x < buffImage.getWidth(); x++) {
+            for (int y = 0; y < buffImage.getHeight(); y++) {
+                newImage.setRGB(x, y, buffImage.getRGB(x, y));
+            }
+        }
+
+        return newImage;
     }
 
     private boolean validateImageSize(BufferedImage image) {
@@ -156,9 +171,5 @@ public class ImageEditor {
     private String urlToMarkDownImageLink(String url) {
         counter++;
         return "![image" + counter + "](" + url + ")";
-    }
-
-    public void clearAllImages() {
-        addedImagesList.forEach(i -> deleteImages(i));
     }
 }

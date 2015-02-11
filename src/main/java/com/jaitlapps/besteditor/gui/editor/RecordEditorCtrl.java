@@ -48,8 +48,7 @@ public class RecordEditorCtrl extends EditorCtrl {
 
 
     public void setStage(Stage primaryStage) {
-        if(currentMode == EditorMode.ADD)
-            primaryStage.setOnHiding(we -> imageEditor.deleteNoUsingImages(contentTextArea.getText()));
+        primaryStage.setOnHiding(we -> imageEditor.deleteNewImages());
     }
 
     public void loadGroups() {
@@ -228,20 +227,22 @@ public class RecordEditorCtrl extends EditorCtrl {
         ContentPreviewCtrl contentPreviewCtrl = loader.getController();
 
         RecordEntry record = recordEntry();
-        contentPreviewCtrl.setRecordEntry(record);
-        contentPreviewCtrl.setContent(contentTextArea.getText());
+        if(record != null) {
+            contentPreviewCtrl.setRecordEntry(record);
+            contentPreviewCtrl.setContent(contentTextArea.getText());
 
-        contentPreviewCtrl.buildPreview();
+            contentPreviewCtrl.buildPreview();
 
-        stage.setTitle("Предпросмотр статьи");
+            stage.setTitle("Предпросмотр статьи");
 
-        Scene scene = new Scene(root, 500, 600);
-        stage.setMinWidth(500);
-        stage.setMinHeight(600);
+            Scene scene = new Scene(root, 500, 600);
+            stage.setMinWidth(500);
+            stage.setMinHeight(600);
 
-        scene.getStylesheets().add("gui/style.css");
+            scene.getStylesheets().add("gui/style.css");
 
-        stage.setScene(scene);
-        stage.showAndWait();
+            stage.setScene(scene);
+            stage.showAndWait();
+        }
     }
 }
