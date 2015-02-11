@@ -24,7 +24,7 @@ public class RecordSaver extends EntrySaver {
         recordEntry.setPathToImage(pathToImage);
         recordEntry.setId(Generator.generateRandomId());
 
-        String pathToContent = saveContent(content);
+        String pathToContent = createMarkdownFileWithContent(content);
         recordEntry.setPathToContent(pathToContent);
 
         imageEditor.deleteNoUsingImages(content);
@@ -39,8 +39,8 @@ public class RecordSaver extends EntrySaver {
         String newIcon = saveIcon(icon, "record");
         recordEntry.setPathToImage(newIcon);
 
-        deleteContent(recordEntry);
-        String pathToContent = saveContent(content);
+        deleteMarkDownFile(recordEntry.getPathToContent());
+        String pathToContent = createMarkdownFileWithContent(content);
         recordEntry.setPathToContent(pathToContent);
 
         imageEditor.deleteNoUsingImages(content);
@@ -58,13 +58,13 @@ public class RecordSaver extends EntrySaver {
         ImageEditor.deleteAllImages(content);
 
         deleteIcon(recordEntry);
-        deleteContent(recordEntry);
+        deleteMarkDownFile(recordEntry.getPathToContent());
 
         recordManager.delete(recordEntry);
         recordManager.saveToFile();
     }
 
-    private String saveContent(String content) {
+    public static String createMarkdownFileWithContent(String content) {
         String fileName = Generator.generateRandomId() + ".md";
 
         Path pathToContent = Paths.get(preferences.getWorkFolder(), "content", fileName);
@@ -80,11 +80,11 @@ public class RecordSaver extends EntrySaver {
         return "content/" + fileName;
     }
 
-    private void deleteContent(RecordEntry recordEntry) {
-        Path pathToContent = Paths.get(preferences.getWorkFolder(), recordEntry.getPathToContent());
+    public static void deleteMarkDownFile(String path) {
+        Path pathToContent = Paths.get(preferences.getWorkFolder(), path);
 
         try {
-            log.info("delete content: " + recordEntry.getPathToContent());
+            log.info("delete content: " + path);
             Files.delete(pathToContent);
         } catch (IOException e) {
             log.error("delete content error", e);

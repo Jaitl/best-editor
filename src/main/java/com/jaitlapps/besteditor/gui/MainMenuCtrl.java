@@ -1,6 +1,7 @@
 package com.jaitlapps.besteditor.gui;
 
 import com.jaitlapps.besteditor.CommonPreferences;
+import com.jaitlapps.besteditor.MarkdownEditorWrapper;
 import com.jaitlapps.besteditor.ZipFolder;
 import com.jaitlapps.besteditor.gui.list.GroupListCtrl;
 import com.jaitlapps.besteditor.gui.list.RecordListCtrl;
@@ -27,7 +28,7 @@ import java.nio.file.StandardOpenOption;
 
 public class MainMenuCtrl extends Application {
 
-    Stage primaryStage;
+    private Stage primaryStage;
 
     private static Logger log = LoggerFactory.getLogger(ContentPreviewCtrl.class);
 
@@ -55,7 +56,7 @@ public class MainMenuCtrl extends Application {
 
 
     @FXML
-    private void selectWorkFolder() {
+    private void selectWorkFolderAction() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Выбор рабочей папки");
 
@@ -73,6 +74,12 @@ public class MainMenuCtrl extends Application {
             preferences.putWorkFolder(selectedDirectory.getPath());
             createStructureDirectories();
         }
+    }
+
+    @FXML
+    private void selectMarkdownEditorAction() {
+        if(preferences.getMarkdownEditor() == null)
+            MarkdownEditorWrapper.selectPathToMarkdownPad(primaryStage);
     }
 
     @FXML
@@ -106,7 +113,7 @@ public class MainMenuCtrl extends Application {
     @FXML
     private void groupEditor() throws IOException {
         if(isWorkFolderNotConsist()) {
-            selectWorkFolder();
+            selectWorkFolderAction();
             return;
         }
 
@@ -132,7 +139,7 @@ public class MainMenuCtrl extends Application {
     @FXML
     private void recordEditor() throws IOException {
         if(isWorkFolderNotConsist()) {
-            selectWorkFolder();
+            selectWorkFolderAction();
             return;
         }
 

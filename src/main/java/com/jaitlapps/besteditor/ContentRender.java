@@ -36,7 +36,7 @@ public class ContentRender {
         String contentWithImage = null;
 
         if(content != null && content.length() > 0)
-            contentWithImage = content.replace("](/images", pathToImageFolder).replace("\\", "/");
+            contentWithImage = content.replace("](images", pathToImageFolder).replace("\\", "/");
 
         return contentWithImage;
     }

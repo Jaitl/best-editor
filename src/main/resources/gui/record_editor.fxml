@@ -101,7 +101,7 @@
                </VBox.margin>
                <children>
                   <Label text="Ссылки на изображения для статьи:" />
-                  <TextArea editable="false" prefHeight="50.0" fx:id="imageTextArea">
+                  <TextArea fx:id="imageTextArea" editable="false" prefHeight="50.0">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
@@ -111,7 +111,7 @@
                         <Insets top="5.0" />
                      </padding>
                      <children>
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Добавить изображение" onAction="#addImageAction" />
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addImageAction" text="Добавить изображение" />
                      </children>
                   </HBox>
                </children>
@@ -151,7 +151,12 @@
             </TextArea>
             <HBox nodeOrientation="RIGHT_TO_LEFT">
                <children>
-                  <Button mnemonicParsing="false" text="Предпросмотр статьи" onAction="#contentPreviewAction">
+                  <Button mnemonicParsing="false" onAction="#contentPreviewAction" text="Предпросмотр статьи">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Открыть статью в MarkdownPad 2" onAction="#openMarkdownEditorAction">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

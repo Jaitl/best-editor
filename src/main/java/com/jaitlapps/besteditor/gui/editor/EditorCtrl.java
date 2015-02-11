@@ -15,8 +15,10 @@ import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 
 public abstract class EditorCtrl {
@@ -27,6 +29,7 @@ public abstract class EditorCtrl {
     }
 
     protected static Logger log = LoggerFactory.getLogger(EditorCtrl.class);
+    protected CommonPreferences preferences = CommonPreferences.getInstance();
 
     protected BufferedImage currentIcon;
 
@@ -53,7 +56,7 @@ public abstract class EditorCtrl {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
-        CommonPreferences preferences = CommonPreferences.getInstance();
+
 
         if(preferences.getRecentIconFolder() != null)
             fileChooser.setInitialDirectory(Paths.get(preferences.getRecentIconFolder()).toFile());
@@ -63,7 +66,7 @@ public abstract class EditorCtrl {
         if (selectedImage != null) {
             preferences.putRecentIconFolder(selectedImage.getParent());
 
-            BufferedImage icon = ImageEditor.loadImage(selectedImage);
+            BufferedImage icon = loadImage(selectedImage);
 
             if(validateIconSize(icon)) {
                 setImage(selectedImage.getPath());
@@ -76,6 +79,18 @@ public abstract class EditorCtrl {
                 currentIcon = null;
             }
         }
+    }
+
+    private BufferedImage loadImage(File pathToImage) {
+        BufferedImage image = null;
+
+        try {
+            image = ImageIO.read(pathToImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
     }
 
     protected boolean validateIconSize(BufferedImage image) {

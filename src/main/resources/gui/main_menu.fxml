@@ -12,7 +12,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Выбрать путь до рабочей папки" onAction="#selectWorkFolder" />
+                  <MenuItem mnemonicParsing="false" text="Выбрать путь до рабочей папки" onAction="#selectWorkFolderAction" />
+                  <MenuItem mnemonicParsing="false" text="Выбрать путь до Markdown Editor" onAction="#selectMarkdownEditorAction" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Выход" onAction="#closeDialog" />
             </items>

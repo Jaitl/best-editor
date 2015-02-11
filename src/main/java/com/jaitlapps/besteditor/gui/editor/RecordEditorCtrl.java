@@ -3,12 +3,14 @@ package com.jaitlapps.besteditor.gui.editor;
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.ImageEditor;
+import com.jaitlapps.besteditor.MarkdownEditorWrapper;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
 import com.jaitlapps.besteditor.gui.ContentPreviewCtrl;
 import com.jaitlapps.besteditor.manager.EntryManager;
 import com.jaitlapps.besteditor.saver.RecordSaver;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,8 +48,10 @@ public class RecordEditorCtrl extends EditorCtrl {
 
     private RecordEntry currentRecordEntry = new RecordEntry();
 
+    private Stage primaryStage;
 
     public void setStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         primaryStage.setOnHiding(we -> imageEditor.deleteNewImages());
     }
 
@@ -244,5 +248,25 @@ public class RecordEditorCtrl extends EditorCtrl {
             stage.setScene(scene);
             stage.showAndWait();
         }
+    }
+
+    @FXML
+    private void openMarkdownEditorAction() {
+        if(preferences.getMarkdownEditor() == null)
+            MarkdownEditorWrapper.selectPathToMarkdownPad(primaryStage);
+
+        String markdownFile = RecordSaver.createMarkdownFileWithContent(contentTextArea.getText());
+        MarkdownEditorWrapper markdownEditorWrapper = new MarkdownEditorWrapper();
+
+        markdownEditorWrapper.setMarkdownFile(markdownFile);
+
+        markdownEditorWrapper.setCallbackFunction(() -> {
+            Platform.runLater(() -> {
+                contentTextArea.setText(RecordSaver.loadContent(markdownFile));
+                RecordSaver.deleteMarkDownFile(markdownFile);
+            });
+        });
+
+        markdownEditorWrapper.start();
     }
 }

@@ -165,7 +165,7 @@ public class ImageEditor {
             log.error("save image error", e);
         }
 
-        return "/images" + "/" + imageName + ".jpg";
+        return "images" + "/" + imageName + ".jpg";
     }
 
     private String urlToMarkDownImageLink(String url) {
