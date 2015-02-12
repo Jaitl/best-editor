@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class EntrySaver {
-    public final static int IMAGE_HEIGHT = 250;
+    public final static int IMAGE_HEIGHT = 200;
 
     protected static org.slf4j.Logger log = LoggerFactory.getLogger(EntryManager.class);
 

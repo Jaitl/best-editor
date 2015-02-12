@@ -94,12 +94,12 @@ public abstract class EditorCtrl {
     }
 
     protected boolean validateIconSize(BufferedImage image) {
-        if (image != null && (image.getHeight() < EntrySaver.IMAGE_HEIGHT
-                || image.getWidth() < EntrySaver.IMAGE_HEIGHT)) {
-            return false;
+        if (image != null && (image.getHeight() >= EntrySaver.IMAGE_HEIGHT
+                || image.getWidth() >= EntrySaver.IMAGE_HEIGHT)) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     protected void setImage(String pathToIcon) {
