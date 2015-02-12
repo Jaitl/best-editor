@@ -34,8 +34,12 @@ public class ImageEditor {
 
         fileChooser.setTitle("Выбор картинки");
 
-        if(preferences.getRecentImageFolder() != null)
-            fileChooser.setInitialDirectory(Paths.get(preferences.getRecentImageFolder()).toFile());
+
+        if(preferences.getRecentImageFolder() != null) {
+            Path resentFolder = Paths.get(preferences.getRecentImageFolder());
+            if(Files.exists(resentFolder))
+                fileChooser.setInitialDirectory(Paths.get(preferences.getRecentImageFolder()).toFile());
+        }
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")

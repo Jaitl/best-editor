@@ -92,7 +92,10 @@ public class MainMenuCtrl extends Application {
         fileChooser.setInitialFileName("BestAdvice-content.zip");
 
         if(preferences.getArchiveImageFolder() != null) {
-            fileChooser.setInitialDirectory(Paths.get(preferences.getArchiveImageFolder()).toFile());
+            Path resentFolder = Paths.get(preferences.getArchiveImageFolder());
+
+            if(Files.exists(resentFolder))
+                fileChooser.setInitialDirectory(Paths.get(preferences.getArchiveImageFolder()).toFile());
         }
 
         fileChooser.setTitle("Выребире куда сохранить даннные");

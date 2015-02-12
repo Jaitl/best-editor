@@ -19,6 +19,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class EditorCtrl {
@@ -56,10 +58,15 @@ public abstract class EditorCtrl {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
 
+        System.out.println(preferences.getRecentIconFolder());
 
 
-        if(preferences.getRecentIconFolder() != null)
-            fileChooser.setInitialDirectory(Paths.get(preferences.getRecentIconFolder()).toFile());
+        if(preferences.getRecentIconFolder() != null) {
+            Path resentFolder = Paths.get(preferences.getRecentIconFolder());
+
+            if (Files.exists(resentFolder))
+                fileChooser.setInitialDirectory(resentFolder.toFile());
+        }
 
         File selectedImage = fileChooser.showOpenDialog(null);
         log.info("selected icon:" + selectedImage);
