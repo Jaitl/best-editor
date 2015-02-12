@@ -95,6 +95,6 @@ public class ContentRender {
     }
 
     private String getLinkToImages() {
-        return "file:///" + preferences.getWorkFolder() + "/content/images";
+        return "file:///" + preferences.getWorkFolder().replace(" ", "%20") + "/content/images";
     }
 }
