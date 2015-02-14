@@ -1,9 +1,6 @@
 package com.jaitlapps.besteditor.gui.editor;
 
-import com.jaitlapps.besteditor.AlertInfo;
-import com.jaitlapps.besteditor.CommonPreferences;
-import com.jaitlapps.besteditor.ImageEditor;
-import com.jaitlapps.besteditor.MarkdownEditorWrapper;
+import com.jaitlapps.besteditor.*;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.domain.GroupEntry;
 import com.jaitlapps.besteditor.domain.RecordEntry;
@@ -255,18 +252,20 @@ public class RecordEditorCtrl extends EditorCtrl {
         if(preferences.getMarkdownEditor() == null)
             MarkdownEditorWrapper.selectPathToMarkdownPad(primaryStage);
 
-        String markdownFile = RecordSaver.createMarkdownFileWithContent(contentTextArea.getText());
-        MarkdownEditorWrapper markdownEditorWrapper = new MarkdownEditorWrapper();
+        if(preferences.getMarkdownEditor() != null) {
+            String markdownFile = RecordSaver.createMarkdownFileWithContent(contentTextArea.getText(), Generator.generateRandomId());
+            MarkdownEditorWrapper markdownEditorWrapper = new MarkdownEditorWrapper();
 
-        markdownEditorWrapper.setMarkdownFile(markdownFile);
+            markdownEditorWrapper.setMarkdownFile(markdownFile);
 
-        markdownEditorWrapper.setCallbackFunction(() -> {
-            Platform.runLater(() -> {
-                contentTextArea.setText(RecordSaver.loadContent(markdownFile));
-                RecordSaver.deleteMarkDownFile(markdownFile);
+            markdownEditorWrapper.setCallbackFunction(() -> {
+                Platform.runLater(() -> {
+                    contentTextArea.setText(RecordSaver.loadContent(markdownFile));
+                    RecordSaver.deleteMarkDownFile(markdownFile);
+                });
             });
-        });
 
-        markdownEditorWrapper.start();
+            markdownEditorWrapper.start();
+        }
     }
 }

@@ -79,7 +79,7 @@ public abstract class ListCtrl<T extends Entry> {
             try {
                 entrySaver.delete(item);
             } catch (Exception e) {
-                log.error("delete error", e);
+                log.error("delete error: " + e.getMessage());
                 AlertInfo.showAlert("Ошибка при удалении", e.getMessage());
             }
             updateList();

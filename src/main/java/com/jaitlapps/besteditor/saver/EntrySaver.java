@@ -22,20 +22,19 @@ public abstract class EntrySaver {
 
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
 
-    protected String saveIcon(BufferedImage originalImage, String folder) {
+    protected String saveIcon(BufferedImage originalImage, String folder, String imageId) {
         BufferedImage resizeImage = ImageEditor.resizeImage(originalImage, IMAGE_HEIGHT);
-        String imageName = Generator.generateRandomId();
 
-        Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", folder, imageName + ".png");
+        Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", folder, imageId + ".png");
 
         try {
             ImageIO.write(resizeImage, "png", pathToImage.toFile());
-            log.info("save icon to file: " + Paths.get("icon", folder, imageName + ".png"));
+            log.info("save icon to file: " + Paths.get("icon", folder, imageId + ".png"));
         } catch (IOException e) {
             log.error("icon save error", e);
         }
 
-        return "icon/" + folder + "/" + imageName + ".png";
+        return "icon/" + folder + "/" + imageId + ".png";
     }
 
     protected void deleteIcon(Entry entry) {

@@ -20,11 +20,12 @@ public class RecordSaver extends EntrySaver {
     private ImageEditor imageEditor;
 
     public void save(RecordEntry recordEntry, BufferedImage icon, String content) {
-        String pathToImage = saveIcon(icon, "record");
+        String recordId = Generator.generateRandomId();
+        String pathToImage = saveIcon(icon, "record", recordId);
         recordEntry.setPathToImage(pathToImage);
-        recordEntry.setId(Generator.generateRandomId());
+        recordEntry.setId(recordId);
 
-        String pathToContent = createMarkdownFileWithContent(content);
+        String pathToContent = createMarkdownFileWithContent(content, recordId);
         recordEntry.setPathToContent(pathToContent);
 
         imageEditor.deleteNoUsingImages(content);
@@ -36,11 +37,11 @@ public class RecordSaver extends EntrySaver {
     public void update(RecordEntry recordEntry, BufferedImage icon, String content) {
         deleteIcon(recordEntry);
 
-        String newIcon = saveIcon(icon, "record");
+        String newIcon = saveIcon(icon, "record", recordEntry.getId());
         recordEntry.setPathToImage(newIcon);
 
         deleteMarkDownFile(recordEntry.getPathToContent());
-        String pathToContent = createMarkdownFileWithContent(content);
+        String pathToContent = createMarkdownFileWithContent(content, recordEntry.getId());
         recordEntry.setPathToContent(pathToContent);
 
         imageEditor.deleteNoUsingImages(content);
@@ -64,20 +65,18 @@ public class RecordSaver extends EntrySaver {
         recordManager.saveToFile();
     }
 
-    public static String createMarkdownFileWithContent(String content) {
-        String fileName = Generator.generateRandomId() + ".md";
-
-        Path pathToContent = Paths.get(preferences.getWorkFolder(), "content", fileName);
+    public static String createMarkdownFileWithContent(String content, String contentId) {
+        Path pathToContent = Paths.get(preferences.getWorkFolder(), "content", contentId + ".md");
 
         try {
-            log.info("save content to file: " + Paths.get("content", fileName));
+            log.info("save content to file: " + Paths.get("content", contentId + ".md"));
             Files.deleteIfExists(pathToContent);
             Files.write(pathToContent, content.getBytes("UTF-8"), StandardOpenOption.CREATE_NEW);
         } catch (IOException e) {
             log.error("save content error", e);
         }
 
-        return "content/" + fileName;
+        return "content/" + contentId + ".md";
     }
 
     public static void deleteMarkDownFile(String path) {
