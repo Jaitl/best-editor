@@ -88,7 +88,7 @@ public abstract class EditorCtrl {
         }
     }
 
-    private BufferedImage loadImage(File pathToImage) {
+    protected BufferedImage loadImage(File pathToImage) {
         BufferedImage image = null;
 
         try {

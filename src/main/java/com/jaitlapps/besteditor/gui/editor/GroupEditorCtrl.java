@@ -60,6 +60,6 @@ public class GroupEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + gEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentIcon = ImageEditor.loadImage(Paths.get(pathToImage).toFile());
+        currentIcon = loadImage(Paths.get(pathToImage).toFile());
     }
 }

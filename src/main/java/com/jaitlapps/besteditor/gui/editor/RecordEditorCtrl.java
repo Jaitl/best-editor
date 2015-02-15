@@ -153,7 +153,7 @@ public class RecordEditorCtrl extends EditorCtrl {
         String pathToImage = preferences.getWorkFolder() + File.separator + recordEntry.getPathToImage();
         setImage(pathToImage);
 
-        currentIcon = ImageEditor.loadImage(Paths.get(pathToImage).toFile());
+        currentIcon = loadImage(Paths.get(pathToImage).toFile());
 
         GroupEntry selectedGroupEntry = groupComboBox.getItems().stream()
                 .filter(x -> x.getId().compareTo(recordEntry.getGroupId()) == 0).findFirst().get();
