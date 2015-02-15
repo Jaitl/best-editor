@@ -69,12 +69,12 @@ public class RecordEditorCtrl extends EditorCtrl {
 
             if (currentMode == EditorMode.ADD) {
                 log.info("save record: " + currentRecordEntry.getTitle());
-                recordSaver.save(currentRecordEntry, currentIcon, contentTextArea.getText());
+                recordSaver.save(currentRecordEntry, currentIcon, contentTextArea.getText().trim());
 
                 currentRecordEntry = new RecordEntry();
             } else if (currentMode == EditorMode.EDIT) {
                 log.info("update record: " + currentRecordEntry.getTitle());
-                recordSaver.update(currentRecordEntry, currentIcon, contentTextArea.getText());
+                recordSaver.update(currentRecordEntry, currentIcon, contentTextArea.getText().trim());
             }
 
             cancelDialog(event);
@@ -83,7 +83,7 @@ public class RecordEditorCtrl extends EditorCtrl {
 
     private RecordEntry recordEntry() {
         if(titleField.getText() != null && titleField.getText().length() > 0) {
-            currentRecordEntry.setTitle(titleField.getText());
+            currentRecordEntry.setTitle(titleField.getText().trim());
         } else {
             currentRecordEntry.setTitle(null);
             AlertInfo.showAlert("Поле не заполнено", "Поле \"Название статьи\" не заполнено!");
@@ -112,7 +112,7 @@ public class RecordEditorCtrl extends EditorCtrl {
             currentRecordEntry.setAuthorExist(true);
 
             if(authorNameField.getText().length() > 0) {
-                currentRecordEntry.setAuthorName(authorNameField.getText());
+                currentRecordEntry.setAuthorName(authorNameField.getText().trim());
             } else {
                 currentRecordEntry.setAuthorName(null);
                 AlertInfo.showAlert("Поле не заполнено", "Поле \"Имя автора\" не заполнено!");
@@ -120,7 +120,7 @@ public class RecordEditorCtrl extends EditorCtrl {
             }
 
             if(authorUrlField.getText().length() > 0) {
-                currentRecordEntry.setAuthorURL(authorUrlField.getText());
+                currentRecordEntry.setAuthorURL(authorUrlField.getText().trim());
             } else {
                 currentRecordEntry.setAuthorURL(null);
                 AlertInfo.showAlert("Поле не заполнено", "Поле \"Ссылка на статью\" не заполнено!");

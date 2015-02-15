@@ -18,7 +18,7 @@ public class GroupEditorCtrl extends EditorCtrl {
 
     @FXML
     private void saveGroup(ActionEvent event) {
-        groupEntry.setTitle(titleField.getText());
+        groupEntry.setTitle(titleField.getText().trim());
 
         if (groupEntry.getTitle() != null && groupEntry.getTitle().length() > 0) {
             if (currentIcon != null) {
