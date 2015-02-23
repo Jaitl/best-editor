@@ -90,6 +90,15 @@ h2 {
   border-bottom: 1px solid #cccccc;
   color: black;
 }
+
+hr {
+    height: 0;
+    margin: 15px 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid #cccccc;
+}
  
 h3 {
   font-size: 18px;
@@ -110,13 +119,6 @@ h6 {
  
 blockquote, pre {
   margin: 15px 0;
-}
- 
-hr {
-  border: 0 none;
-  color: #cccccc;
-  height: 4px;
-  padding: 0;
 }
  
 body > h2:first-child {
@@ -178,8 +180,8 @@ blockquote > :last-child {
  
 img {
     border: none;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 95%;
+    max-height: 95%;
 }
  
 code, tt {

@@ -4,8 +4,11 @@ import com.jaitlapps.besteditor.domain.RecordEntry;
 import org.markdown4j.Markdown4jProcessor;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 public class ContentRender {
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
@@ -91,10 +94,43 @@ public class ContentRender {
     private String getLinkToCSS() {
         Path pathToCSS = Paths.get(preferences.getWorkFolder(), "content", "css", "common_style.css");
 
+        if(Files.notExists(pathToCSS))
+            copyCSSFromResources();
+
         return "file:///" + pathToCSS;
     }
 
     private String getLinkToImages() {
         return "file:///" + preferences.getWorkFolder().replace(" ", "%20") + "/content/images";
+    }
+
+    private void copyCSSFromResources() {
+        Path pathToCSSFolder = Paths.get(preferences.getWorkFolder(), "content", "css");
+
+        if(Files.notExists(pathToCSSFolder)) {
+            try {
+                Files.createDirectory(pathToCSSFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("css/common_style.css");
+
+        byte[] buffer = new byte[0];
+
+        try {
+            buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Files.write(pathToCSSFolder.resolve("common_style.css"), buffer, StandardOpenOption.CREATE_NEW);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
