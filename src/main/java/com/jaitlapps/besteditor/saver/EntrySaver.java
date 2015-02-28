@@ -2,7 +2,6 @@ package com.jaitlapps.besteditor.saver;
 
 
 import com.jaitlapps.besteditor.CommonPreferences;
-import com.jaitlapps.besteditor.Generator;
 import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
@@ -16,14 +15,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class EntrySaver {
-    public final static int IMAGE_HEIGHT = 200;
-
     protected static org.slf4j.Logger log = LoggerFactory.getLogger(EntryManager.class);
 
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
 
     protected String saveIcon(BufferedImage originalImage, String folder, String imageId) {
-        BufferedImage resizeImage = ImageEditor.resizeImage(originalImage, IMAGE_HEIGHT);
+        BufferedImage resizeImage = ImageEditor.resizeImage(originalImage, Integer.parseInt(preferences.getIconSize()));
 
         Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", folder, imageId + ".png");
 

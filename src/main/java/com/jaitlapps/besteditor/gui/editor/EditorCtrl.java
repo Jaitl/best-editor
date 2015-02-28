@@ -2,9 +2,7 @@ package com.jaitlapps.besteditor.gui.editor;
 
 import com.jaitlapps.besteditor.AlertInfo;
 import com.jaitlapps.besteditor.CommonPreferences;
-import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
-import com.jaitlapps.besteditor.saver.EntrySaver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -55,7 +53,7 @@ public abstract class EditorCtrl {
         fileChooser.setTitle("Выбор иконки");
 
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PNG", "*.png")
+                new FileChooser.ExtensionFilter("Image Files", preferences.getIconType())
         );
 
         System.out.println(preferences.getRecentIconFolder());
@@ -81,7 +79,7 @@ public abstract class EditorCtrl {
             }
             else {
                 AlertInfo.showAlert("Иконка слишком маленькая", "Иконка слишком маленькая, выберите иконку побольше");
-                log.info("icon for group is small then " + EntrySaver.IMAGE_HEIGHT);
+                log.info("icon for group is small then " + Integer.parseInt(preferences.getIconSize()));
                 setImage(null);
                 currentIcon = null;
             }
@@ -101,8 +99,9 @@ public abstract class EditorCtrl {
     }
 
     protected boolean validateIconSize(BufferedImage image) {
-        if (image != null && (image.getHeight() >= EntrySaver.IMAGE_HEIGHT
-                || image.getWidth() >= EntrySaver.IMAGE_HEIGHT)) {
+        int iconSize = Integer.parseInt(preferences.getIconSize());
+        if (image != null && (image.getHeight() >= iconSize)
+                || image.getWidth() >= iconSize) {
             return true;
         }
 

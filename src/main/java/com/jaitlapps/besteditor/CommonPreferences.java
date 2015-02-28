@@ -17,6 +17,8 @@ public class CommonPreferences {
     public static final String RESENT_IMAGE_FOLDER = "resent_image_folder";
     public static final String RESENT_ARCHIVE_FOLDER = "resent_archive_folder";
     public static final String MARKDOWN_EDITOR_EXE = "markdown_editor_exe";
+    public static final String ICON_SIZE = "icon_size";
+    public static final String ICON_TYPE = "icon_type";
 
     private static final CommonPreferences INSTANCE = new CommonPreferences();
 
@@ -64,6 +66,14 @@ public class CommonPreferences {
 
     public String getMarkdownEditor() {
         return preferences.get(MARKDOWN_EDITOR_EXE, null);
+    }
+
+    public String getIconSize() {
+        return preferences.get(ICON_SIZE, "200");
+    }
+
+    public String getIconType() {
+        return preferences.get(ICON_TYPE, "*.png");
     }
 
     private static class FileProperties {

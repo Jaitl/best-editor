@@ -16,7 +16,6 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
