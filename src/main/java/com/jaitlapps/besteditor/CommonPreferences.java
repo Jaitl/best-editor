@@ -19,6 +19,7 @@ public class CommonPreferences {
     public static final String MARKDOWN_EDITOR_EXE = "markdown_editor_exe";
     public static final String ICON_SIZE = "icon_size";
     public static final String ICON_TYPE = "icon_type";
+    public static final String ICON_SQUARE_MODE = "icon_square_mode";
 
     private static final CommonPreferences INSTANCE = new CommonPreferences();
 
@@ -74,6 +75,10 @@ public class CommonPreferences {
 
     public String getIconType() {
         return preferences.get(ICON_TYPE, "*.png");
+    }
+
+    public String getIconSquareMode() {
+        return preferences.get(ICON_SQUARE_MODE, "false");
     }
 
     private static class FileProperties {

@@ -5,6 +5,7 @@ import com.jaitlapps.besteditor.CommonPreferences;
 import com.jaitlapps.besteditor.ImageEditor;
 import com.jaitlapps.besteditor.domain.Entry;
 import com.jaitlapps.besteditor.manager.EntryManager;
+import org.imgscalr.Scalr;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
@@ -20,7 +21,16 @@ public abstract class EntrySaver {
     protected static CommonPreferences preferences = CommonPreferences.getInstance();
 
     protected String saveIcon(BufferedImage originalImage, String folder, String imageId) {
-        BufferedImage resizeImage = ImageEditor.resizeImage(originalImage, Integer.parseInt(preferences.getIconSize()));
+
+        int imageSize = Integer.parseInt(preferences.getIconSize());
+
+        boolean squareMode = Boolean.parseBoolean(preferences.getIconSquareMode());
+
+        BufferedImage resizeImage = null;
+        if(!squareMode)
+            resizeImage = resizeImage(originalImage, imageSize);
+        else
+            resizeImage = resizeImageSquare(originalImage, imageSize);
 
         Path pathToImage = Paths.get(preferences.getWorkFolder(), "icon", folder, imageId + ".png");
 
@@ -42,6 +52,16 @@ public abstract class EntrySaver {
         } catch (IOException e) {
             log.error("icon delete error", e);
         }
+    }
+
+    private BufferedImage resizeImage(BufferedImage buffImage, int imageSize) {
+        log.info("resize image");
+        return Scalr.resize(buffImage, Scalr.Method.QUALITY, imageSize);
+    }
+
+    private BufferedImage resizeImageSquare(BufferedImage buffImage, int imageSize) {
+        log.info("resize image");
+        return Scalr.resize(buffImage, Scalr.Method.QUALITY, imageSize, imageSize);
     }
 
     public abstract void delete(Entry entry) throws Exception;
